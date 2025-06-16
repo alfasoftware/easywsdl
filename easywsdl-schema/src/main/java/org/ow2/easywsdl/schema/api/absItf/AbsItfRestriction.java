@@ -1,0 +1,35 @@
+/**
+ * Copyright (c) 2008-2012 EBM WebSourcing, 2012-2023 Linagora
+ * 
+ * This program/library is free software: you can redistribute it and/or modify
+ * it under the terms of the New BSD License (3-clause license).
+ *
+ * This program/library is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE. See the New BSD License (3-clause license)
+ * for more details.
+ *
+ * You should have received a copy of the New BSD License (3-clause license)
+ * along with this program/library; If not, see http://directory.fsf.org/wiki/License:BSD_3Clause/
+ * for the New BSD License (3-clause license).
+ */
+ 
+package org.ow2.easywsdl.schema.api.absItf;
+
+import java.util.List;
+
+import javax.xml.namespace.QName;
+
+import org.ow2.easywsdl.schema.api.SchemaElement;
+
+/**
+ * @author Nicolas Salatge - EBM WebSourcing
+ */
+public interface AbsItfRestriction<En extends AbsItfEnumeration> extends SchemaElement {
+
+	List<En> getEnumerations();
+	void addEnumeration(En enumeration);
+	En createEnumeration();
+	QName getBase();
+	void setBase(QName base);
+}

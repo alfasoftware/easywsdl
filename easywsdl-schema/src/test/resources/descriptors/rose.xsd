@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright (c) 2008-2012 EBM WebSourcing, 2012-2023 Linagora
+
+ This program/library is free software: you can redistribute it and/or modify
+ it under the terms of the New BSD License (3-clause license).
+
+ This program/library is distributed in the hope that it will be useful, but
+ WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+ FITNESS FOR A PARTICULAR PURPOSE. See the New BSD License (3-clause license)
+ for more details.
+
+ You should have received a copy of the New BSD License (3-clause license)
+ along with this program/library; If not, see http://directory.fsf.org/wiki/License:BSD_3Clause/
+ for the New BSD License (3-clause license).
+-->
+<schema targetNamespace="http://bibiwsserv.techfak.uni-bielefeld.de/rose/axis/rosePort"
+	xmlns="http://www.w3.org/2001/XMLSchema"
+	xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" 
+	xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" 
+	xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<import namespace="http://xml.apache.org/xml-soap" />
+	<import namespace="http://hobit.sourceforge.net/xsds/20060403/hobitTypes" />
+	<import namespace="http://schemas.bioservices.net/2005/biotypes" />
+	<import namespace="http://hobit.sourceforge.net/xsds/20060201/alignmentML" />
+	<import namespace="http://bibiserv.techfak.uni-bielefeld.de/xsd/2005/11/phyloML" />
+	<import namespace="http://hobit.sourceforge.net/xsds/20060201/sequenceML" />
+	<import namespace="http://schemas.xmlsoap.org/soap/encoding/" />
+	<complexType name="ArrayOf_xs_anyType">
+		<complexContent>
+			<restriction base="soapenc:Array">
+				<attribute ref="soapenc:arrayType" wsdl:arrayType="xs:anyType[]" />
+			</restriction>
+		</complexContent>
+	</complexType>
+	<complexType name="roseException">
+		<sequence />
+	</complexType>
+</schema>
