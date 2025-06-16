@@ -1,6 +1,6 @@
 /**
  * Copyright (c) 2008-2012 EBM WebSourcing, 2012-2023 Linagora
- * 
+ *
  * This program/library is free software: you can redistribute it and/or modify
  * it under the terms of the New BSD License (3-clause license).
  *
@@ -13,13 +13,14 @@
  * along with this program/library; If not, see http://directory.fsf.org/wiki/License:BSD_3Clause/
  * for the New BSD License (3-clause license).
  */
- 
+
 package org.ow2.easywsdl.wsdl.impl.wsdl11;
 
 import java.util.logging.Logger;
 
-import javax.xml.bind.JAXBElement;
 import javax.xml.namespace.QName;
+
+import jakarta.xml.bind.JAXBElement;
 
 import org.ow2.easywsdl.wsdl.api.BindingFault;
 import org.ow2.easywsdl.wsdl.api.BindingInput;
@@ -46,13 +47,13 @@ public class BindingOperationImpl
         implements org.ow2.easywsdl.wsdl.api.BindingOperation {
 
     /**
-	 * 
+	 *
 	 */
     private static final long serialVersionUID = 1L;
-    
+
     private static final Logger LOG = Logger.getLogger(BindingOperationImpl.class.getName());
-    
-    private ObjectFactory soap11BindingFactory = new ObjectFactory();
+
+    private final ObjectFactory soap11BindingFactory = new ObjectFactory();
 
     public BindingOperationImpl(final TBindingOperation bindingOperation,
             final BindingImpl bindingImpl) {
@@ -97,21 +98,25 @@ public class BindingOperationImpl
                 (TBindingOperationMessage) ((AbstractWSDLElementImpl) output).getModel());
 	}
 
-	public void addFault(final BindingFault bindingFault) {
+	@Override
+  public void addFault(final BindingFault bindingFault) {
         this.faults.add(bindingFault);
         this.model.getFault().add(
                 (TBindingOperationFault) ((AbstractWSDLElementImpl) bindingFault).getModel());
     }
 
+    @Override
     public BindingFault removeFault(final String name) {
         throw new UnsupportedOperationException();
     }
 
+    @Override
     public void setQName(final QName name) {
         this.model.setName(name.getLocalPart());
     }
 
 
+    @Override
     @SuppressWarnings("unchecked")
     public StyleConstant getStyle() {
         StyleConstant style = null;
@@ -142,6 +147,7 @@ public class BindingOperationImpl
         return style;
     }
 
+    @Override
     @SuppressWarnings("unchecked")
     public QName getQName() {
         return new QName(
@@ -154,9 +160,10 @@ public class BindingOperationImpl
         throw new UnsupportedOperationException();
     }
 
+    @Override
     public SOAPMEPConstants getMEP() {
         SOAPMEPConstants mep = null;
-        if ((this.getModel().getInput() != null) && (this.getModel().getOutput() != null)) {
+        if (this.getModel().getInput() != null && this.getModel().getOutput() != null) {
             mep = SOAPMEPConstants.REQUEST_RESPONSE;
         } else if (this.getModel().getInput() != null) {
             mep = SOAPMEPConstants.ONE_WAY;
@@ -164,10 +171,12 @@ public class BindingOperationImpl
         return mep;
     }
 
+    @Override
     public void setMEP(final SOAPMEPConstants mep) {
     	LOG.warning("Do nothing: No mep attribute in wsdl 1.1 description");
     }
 
+    @Override
     @SuppressWarnings("unchecked")
     public String getHttpLocation() {
         String httpLocation = null;
@@ -181,6 +190,7 @@ public class BindingOperationImpl
         return httpLocation;
     }
 
+    @Override
     @SuppressWarnings("unchecked")
     public String getSoapAction() {
         String soapAction = null;
@@ -200,7 +210,8 @@ public class BindingOperationImpl
 
         return soapAction;
     }
-    
+
+    @Override
     @SuppressWarnings("unchecked")
     public void setSoapAction(String soapAction) {
         boolean find = false;
@@ -218,56 +229,66 @@ public class BindingOperationImpl
                 break;
             }
         }
-        
+
         if(!find) {
-        	// create default soap 1.1 operation in document mode 
+        	// create default soap 1.1 operation in document mode
         	org.ow2.easywsdl.wsdl.org.xmlsoap.schemas.wsdl.soap.TOperation op = new org.ow2.easywsdl.wsdl.org.xmlsoap.schemas.wsdl.soap.TOperation();
         	op.setSoapAction(soapAction);
         	op.setStyle(TStyleChoice.DOCUMENT);
-        	
+
         	// add in model
         	this.model.getAny().add(this.soap11BindingFactory.createOperation(op));
         }
 
     }
 
+    @Override
     public String getHttpContentEncodingDefault() {
         return null;
     }
 
+    @Override
     public String getHttpFaultSerialization() {
         return null;
     }
 
+    @Override
     public String getHttpInputSerialization() {
         return null;
     }
 
+    @Override
     public String getHttpMethod() {
         return this.getBinding().getTransportProtocol();
     }
 
+    @Override
     public String getHttpOutputSerialization() {
         return null;
     }
 
+    @Override
     public String getHttpQueryParameterSeparator() {
         return null;
     }
 
+    @Override
     public boolean isHttpIgnoreUncited() {
         return false;
     }
 
-	public BindingFault createFault() {
+	@Override
+  public BindingFault createFault() {
 		return new BindingFaultImpl(new TBindingOperationFault(), this);
 	}
 
-	public BindingInput createInput() {
+	@Override
+  public BindingInput createInput() {
 		return new BindingInputImpl(new TBindingOperationMessage(), this);
 	}
 
-	public BindingOutput createOutput() {
+	@Override
+  public BindingOutput createOutput() {
 		return new BindingOutputImpl(new TBindingOperationMessage() , this);
 	}
 

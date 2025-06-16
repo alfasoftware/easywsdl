@@ -1,6 +1,6 @@
 /**
  * Copyright (c) 2008-2012 EBM WebSourcing, 2012-2023 Linagora
- * 
+ *
  * This program/library is free software: you can redistribute it and/or modify
  * it under the terms of the New BSD License (3-clause license).
  *
@@ -13,10 +13,10 @@
  * along with this program/library; If not, see http://directory.fsf.org/wiki/License:BSD_3Clause/
  * for the New BSD License (3-clause license).
  */
- 
+
 package org.ow2.easywsdl.wsdl.impl.generic;
 
-import javax.xml.bind.JAXBContext;
+import jakarta.xml.bind.JAXBContext;
 
 import org.ow2.easywsdl.schema.api.SchemaException;
 import org.ow2.easywsdl.schema.impl.SchemaJAXBContext;
@@ -28,7 +28,7 @@ import org.ow2.easywsdl.wsdl.api.WSDLException;
 public final class WSDLJAXBContext {
 
     private static WSDLException fail = null;
-    
+
     static {
     	try {
             SchemaJAXBContext.getInstance().addOtherObjectFactory(
@@ -43,7 +43,7 @@ public final class WSDLJAXBContext {
 
 	/**
 	 * @return the jaxbContext
-	 * @throws WSDLException 
+	 * @throws WSDLException
 	 */
 	public JAXBContext getJaxbContext() throws WSDLException {
         if (fail != null) {

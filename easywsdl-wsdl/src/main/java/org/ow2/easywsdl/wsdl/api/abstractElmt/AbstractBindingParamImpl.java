@@ -1,6 +1,6 @@
 /**
  * Copyright (c) 2008-2012 EBM WebSourcing, 2012-2023 Linagora
- * 
+ *
  * This program/library is free software: you can redistribute it and/or modify
  * it under the terms of the New BSD License (3-clause license).
  *
@@ -13,14 +13,14 @@
  * along with this program/library; If not, see http://directory.fsf.org/wiki/License:BSD_3Clause/
  * for the New BSD License (3-clause license).
  */
- 
+
 package org.ow2.easywsdl.wsdl.api.abstractElmt;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import javax.xml.bind.JAXBElement;
+import jakarta.xml.bind.JAXBElement;
 
 import org.ow2.easywsdl.wsdl.api.abstractItf.AbsItfBindingOperation;
 import org.ow2.easywsdl.wsdl.api.abstractItf.AbsItfBindingParam;
@@ -86,21 +86,21 @@ AbsItfBindingParam {
 		org.ow2.easywsdl.wsdl.org.xmlsoap.schemas.wsdl.http.UrlEncoded encoded = null;
 		org.ow2.easywsdl.wsdl.org.xmlsoap.schemas.wsdl.http.UrlReplacement replacement = null;
 
-		final List<ContentType> contents = new ArrayList<ContentType>();
-		final List<TMimeXml> mimeXmls = new ArrayList<TMimeXml>();
-		final List<MultipartRelatedType> multiparts = new ArrayList<MultipartRelatedType>();
+		final List<ContentType> contents = new ArrayList<>();
+		final List<TMimeXml> mimeXmls = new ArrayList<>();
+		final List<MultipartRelatedType> multiparts = new ArrayList<>();
 
 		org.ow2.easywsdl.wsdl.org.xmlsoap.schemas.wsdl.soap.TBody soap11body = null;
-		final List<org.ow2.easywsdl.wsdl.org.xmlsoap.schemas.wsdl.soap.THeader> soap11headers = new ArrayList<org.ow2.easywsdl.wsdl.org.xmlsoap.schemas.wsdl.soap.THeader>();
+		final List<org.ow2.easywsdl.wsdl.org.xmlsoap.schemas.wsdl.soap.THeader> soap11headers = new ArrayList<>();
 		org.ow2.easywsdl.wsdl.org.xmlsoap.schemas.wsdl.soap.TFault soap11fault = null;
 
 		org.ow2.easywsdl.wsdl.org.xmlsoap.schemas.wsdl.soap12.TBody soap12body = null;
-		final List<org.ow2.easywsdl.wsdl.org.xmlsoap.schemas.wsdl.soap12.THeader> soap12headers = new ArrayList<org.ow2.easywsdl.wsdl.org.xmlsoap.schemas.wsdl.soap12.THeader>();
+		final List<org.ow2.easywsdl.wsdl.org.xmlsoap.schemas.wsdl.soap12.THeader> soap12headers = new ArrayList<>();
 		org.ow2.easywsdl.wsdl.org.xmlsoap.schemas.wsdl.soap12.TFault soap12fault = null;
 
-		final List<org.ow2.easywsdl.wsdl.org.w3.ns.wsdl.http.Header> httpHeaders = new ArrayList<org.ow2.easywsdl.wsdl.org.w3.ns.wsdl.http.Header>();
-		final List<org.ow2.easywsdl.wsdl.org.w3.ns.wsdl.soap.Header> soapHeaders = new ArrayList<org.ow2.easywsdl.wsdl.org.w3.ns.wsdl.soap.Header>();
-		final List<org.ow2.easywsdl.wsdl.org.w3.ns.wsdl.soap.Module> soapModules = new ArrayList<org.ow2.easywsdl.wsdl.org.w3.ns.wsdl.soap.Module>();
+		final List<org.ow2.easywsdl.wsdl.org.w3.ns.wsdl.http.Header> httpHeaders = new ArrayList<>();
+		final List<org.ow2.easywsdl.wsdl.org.w3.ns.wsdl.soap.Header> soapHeaders = new ArrayList<>();
+		final List<org.ow2.easywsdl.wsdl.org.w3.ns.wsdl.soap.Module> soapModules = new ArrayList<>();
 
 		Object value = null;
 		for (final Object item : items) {
@@ -150,25 +150,25 @@ AbsItfBindingParam {
 		 * WSDL 1.1
 		 */
 		// contains http binding
-		if ((encoded != null) || (replacement != null)) {
+		if (encoded != null || replacement != null) {
 			bindingProtocol = new org.ow2.easywsdl.wsdl.impl.wsdl11.binding.http.HTTPBindingImpl(
 					encoded, replacement);
 		}
 
 		// contain mime binding
-		if ((!contents.isEmpty()) || (!mimeXmls.isEmpty()) || (!multiparts.isEmpty())) {
+		if (!contents.isEmpty() || !mimeXmls.isEmpty() || !multiparts.isEmpty()) {
 			bindingProtocol = new org.ow2.easywsdl.wsdl.impl.wsdl11.binding.mime.MIMEBindingImpl(
 					contents, mimeXmls, multiparts, param);
 		}
 
 		// contain soap 1.1 binding
-		if ((soap11body != null) || (!soap11headers.isEmpty()) || (soap11fault != null)) {
+		if (soap11body != null || !soap11headers.isEmpty() || soap11fault != null) {
 			bindingProtocol = new org.ow2.easywsdl.wsdl.impl.wsdl11.binding.soap.soap11.SOAP11BindingImpl(
 					soap11headers, soap11body, soap11fault, param);
 		}
 
 		// contain soap 1.2 binding
-		if ((soap12body != null) || (!soap12headers.isEmpty()) || (soap12fault != null)) {
+		if (soap12body != null || !soap12headers.isEmpty() || soap12fault != null) {
 			bindingProtocol = new org.ow2.easywsdl.wsdl.impl.wsdl11.binding.soap.soap12.SOAP12BindingImpl(
 					soap12headers, soap12body, soap12fault);
 		}
@@ -183,7 +183,7 @@ AbsItfBindingParam {
 		}
 
 		// contains soap binding
-		if ((!soapHeaders.isEmpty()) || (!soapModules.isEmpty())) {
+		if (!soapHeaders.isEmpty() || !soapModules.isEmpty()) {
 			bindingProtocol = new org.ow2.easywsdl.wsdl.impl.wsdl20.binding.soap.SOAPBindingImpl(
 					soapHeaders, soapModules, param);
 		}
@@ -250,7 +250,8 @@ AbsItfBindingParam {
 
 	}
 
-	public HTTPBinding4Wsdl11 getHTTPBinding4Wsdl11() {
+	@Override
+  public HTTPBinding4Wsdl11 getHTTPBinding4Wsdl11() {
 		HTTPBinding4Wsdl11 res = null;
 		if (this.bindingProtocol instanceof HTTPBinding4Wsdl11) {
 			res = (HTTPBinding4Wsdl11) this.bindingProtocol;
@@ -258,7 +259,8 @@ AbsItfBindingParam {
 		return res;
 	}
 
-	public MIMEBinding4Wsdl11 getMIMEBinding4Wsdl11() {
+	@Override
+  public MIMEBinding4Wsdl11 getMIMEBinding4Wsdl11() {
 		MIMEBinding4Wsdl11 res = null;
 		if (this.bindingProtocol instanceof MIMEBinding4Wsdl11) {
 			res = (MIMEBinding4Wsdl11) this.bindingProtocol;
@@ -266,7 +268,8 @@ AbsItfBindingParam {
 		return res;
 	}
 
-	public SOAP11Binding4Wsdl11 getSOAP11Binding4Wsdl11() {
+	@Override
+  public SOAP11Binding4Wsdl11 getSOAP11Binding4Wsdl11() {
 		SOAP11Binding4Wsdl11 res = null;
 		if (this.bindingProtocol instanceof SOAP11Binding4Wsdl11) {
 			res = (SOAP11Binding4Wsdl11) this.bindingProtocol;
@@ -274,7 +277,8 @@ AbsItfBindingParam {
 		return res;
 	}
 
-	public SOAP12Binding4Wsdl11 getSOAP12Binding4Wsdl11() {
+	@Override
+  public SOAP12Binding4Wsdl11 getSOAP12Binding4Wsdl11() {
 		SOAP12Binding4Wsdl11 res = null;
 		if (this.bindingProtocol instanceof SOAP12Binding4Wsdl11) {
 			res = (SOAP12Binding4Wsdl11) this.bindingProtocol;
@@ -282,7 +286,8 @@ AbsItfBindingParam {
 		return res;
 	}
 
-	public HTTPBinding4Wsdl20 getHTTPBinding4Wsdl20() {
+	@Override
+  public HTTPBinding4Wsdl20 getHTTPBinding4Wsdl20() {
 		HTTPBinding4Wsdl20 res = null;
 		if (this.bindingProtocol instanceof HTTPBinding4Wsdl20) {
 			res = (HTTPBinding4Wsdl20) this.bindingProtocol;
@@ -290,7 +295,8 @@ AbsItfBindingParam {
 		return res;
 	}
 
-	public SOAPBinding4Wsdl20 getSOAP12Binding4Wsdl20() {
+	@Override
+  public SOAPBinding4Wsdl20 getSOAP12Binding4Wsdl20() {
 		SOAPBinding4Wsdl20 res = null;
 		if (this.bindingProtocol instanceof SOAPBinding4Wsdl20) {
 			res = (SOAPBinding4Wsdl20) this.bindingProtocol;

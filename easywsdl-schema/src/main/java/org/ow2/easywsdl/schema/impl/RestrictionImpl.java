@@ -1,6 +1,6 @@
 /**
  * Copyright (c) 2008-2012 EBM WebSourcing, 2012-2023 Linagora
- * 
+ *
  * This program/library is free software: you can redistribute it and/or modify
  * it under the terms of the New BSD License (3-clause license).
  *
@@ -13,11 +13,12 @@
  * along with this program/library; If not, see http://directory.fsf.org/wiki/License:BSD_3Clause/
  * for the New BSD License (3-clause license).
  */
- 
+
 package org.ow2.easywsdl.schema.impl;
 
-import javax.xml.bind.JAXBElement;
 import javax.xml.namespace.QName;
+
+import jakarta.xml.bind.JAXBElement;
 
 import org.ow2.easywsdl.schema.api.Enumeration;
 import org.ow2.easywsdl.schema.api.Restriction;
@@ -30,8 +31,8 @@ import org.ow2.easywsdl.schema.org.w3._2001.xmlschema.ObjectFactory;
 /**
  * @author Nicolas Boissel-Dallier - EBM WebSourcing
  */
-public class RestrictionImpl 
-	extends AbstractRestrictionImpl<org.ow2.easywsdl.schema.org.w3._2001.xmlschema.Restriction, Enumeration> 
+public class RestrictionImpl
+	extends AbstractRestrictionImpl<org.ow2.easywsdl.schema.org.w3._2001.xmlschema.Restriction, Enumeration>
 	implements Restriction {
 
 	/**
@@ -55,7 +56,8 @@ public class RestrictionImpl
 		}
 	}
 
-	public Enumeration createEnumeration() {
+	@Override
+  public Enumeration createEnumeration() {
 		return new EnumerationImpl(new NoFixedFacet(), this);
 	}
 
@@ -68,11 +70,13 @@ public class RestrictionImpl
 		this.model.getFacets().add(enumElmt);
 	}
 
-	public QName getBase() {
+	@Override
+  public QName getBase() {
 		return this.model.getBase();
 	}
 
-	public void setBase(QName base) {
+	@Override
+  public void setBase(QName base) {
 		this.model.setBase(base);
 	}
 

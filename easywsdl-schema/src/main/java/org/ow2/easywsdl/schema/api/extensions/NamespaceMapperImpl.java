@@ -1,6 +1,6 @@
 /**
  * Copyright (c) 2008-2012 EBM WebSourcing, 2012-2023 Linagora
- * 
+ *
  * This program/library is free software: you can redistribute it and/or modify
  * it under the terms of the New BSD License (3-clause license).
  *
@@ -13,7 +13,7 @@
  * along with this program/library; If not, see http://directory.fsf.org/wiki/License:BSD_3Clause/
  * for the New BSD License (3-clause license).
  */
- 
+
 package org.ow2.easywsdl.schema.api.extensions;
 
 import java.util.ArrayList;
@@ -25,7 +25,8 @@ import java.util.Map.Entry;
 
 import javax.xml.XMLConstants;
 
-import com.sun.xml.bind.marshaller.NamespacePrefixMapper;
+import org.glassfish.jaxb.runtime.marshaller.NamespacePrefixMapper;
+
 
 /**
  * @author Nicolas Salatge - EBM WebSourcing
@@ -35,7 +36,7 @@ public class NamespaceMapperImpl extends NamespacePrefixMapper{
     /**
      * Map: key = prefix - value = namespaceUri
      */
-    public Map<String, String> ns = new HashMap<String, String>();
+    public Map<String, String> ns = new HashMap<>();
 
     public Map<String, String> getNamespaces() {
 		return ns;
@@ -46,7 +47,7 @@ public class NamespaceMapperImpl extends NamespacePrefixMapper{
     	addNamespace(XMLConstants.XML_NS_PREFIX, XMLConstants.XML_NS_URI);
  //   	addNamespace(XMLConstants.XMLNS_ATTRIBUTE, XMLConstants.XMLNS_ATTRIBUTE_NS_URI);
     }
-    
+
 	// TODO: This constructor should be replaced by a constructor using a Map<prefix, uri>
 	public NamespaceMapperImpl(String[] initialNamespaces) {
 		this();
@@ -74,7 +75,7 @@ public class NamespaceMapperImpl extends NamespacePrefixMapper{
         	this.ns.put(prefix,namespaceUri);
     	}
     }
-    
+
     public String getNamespaceURI(final String prefix) {
         return this.ns.get(prefix);
     }
@@ -114,12 +115,12 @@ public class NamespaceMapperImpl extends NamespacePrefixMapper{
                 break;
             }
         }
-        
+
         return res;
     }
 
     public Iterator<String> getPrefixes(final String namespaceURI) {
-        final List<String> res = new ArrayList<String>();
+        final List<String> res = new ArrayList<>();
         for (final Entry<String, String> entry : this.ns.entrySet()) {
             if (entry.getValue().equals(namespaceURI)) {
                 res.add(entry.getKey());

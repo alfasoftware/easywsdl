@@ -1,6 +1,6 @@
 /**
  * Copyright (c) 2008-2012 EBM WebSourcing, 2012-2023 Linagora
- * 
+ *
  * This program/library is free software: you can redistribute it and/or modify
  * it under the terms of the New BSD License (3-clause license).
  *
@@ -13,16 +13,17 @@
  * along with this program/library; If not, see http://directory.fsf.org/wiki/License:BSD_3Clause/
  * for the New BSD License (3-clause license).
  */
- 
+
 package org.ow2.easywsdl.wsdl.impl.wsdl11;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.xml.bind.JAXBElement;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Unmarshaller;
 import javax.xml.namespace.QName;
+
+import jakarta.xml.bind.JAXBElement;
+import jakarta.xml.bind.JAXBException;
+import jakarta.xml.bind.Unmarshaller;
 
 import org.ow2.easywsdl.wsdl.api.Description;
 import org.ow2.easywsdl.wsdl.api.Part;
@@ -40,13 +41,13 @@ import org.w3c.dom.Element;
 public class MessageImpl extends AbstractWSDLElementImpl<TMessage> {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private Description description;
+	private final Description description;
 
-	private List<Part> parts = new ArrayList<Part>();
+	private final List<Part> parts = new ArrayList<>();
 
 	public MessageImpl(TMessage msg, Description parent) {
 		super(msg, (AbstractWSDLElementImpl) parent);
@@ -66,7 +67,7 @@ public class MessageImpl extends AbstractWSDLElementImpl<TMessage> {
 	public Part getPart(QName partName) {
 		Part res = null;
 		for (Part part : this.parts) {
-			if ((part.getPartQName().getLocalPart().equals(partName.getLocalPart())) && (part.getPartQName().getNamespaceURI().equals(partName.getNamespaceURI()))) {
+			if (part.getPartQName().getLocalPart().equals(partName.getLocalPart()) && part.getPartQName().getNamespaceURI().equals(partName.getNamespaceURI())) {
 				res = part;
 				break;
 			}
@@ -85,7 +86,7 @@ public class MessageImpl extends AbstractWSDLElementImpl<TMessage> {
 	public static TMessage replaceDOMElementByTMessage(final WSDLElement parent, final Element childToReplace, WSDLReaderImpl reader) throws WSDLException {
 		TMessage res = null;
 		try {
-			if ((childToReplace != null) && ((childToReplace.getLocalName().equals("message")))) {
+			if (childToReplace != null && childToReplace.getLocalName().equals("message")) {
 				JAXBElement<TMessage> jaxbElement;
 
                 Unmarshaller unmarshaller = WSDLJAXBContext.getJaxbContext().createUnmarshaller();

@@ -1,6 +1,6 @@
 /**
  * Copyright (c) 2008-2012 EBM WebSourcing, 2012-2023 Linagora
- * 
+ *
  * This program/library is free software: you can redistribute it and/or modify
  * it under the terms of the New BSD License (3-clause license).
  *
@@ -13,15 +13,16 @@
  * along with this program/library; If not, see http://directory.fsf.org/wiki/License:BSD_3Clause/
  * for the New BSD License (3-clause license).
  */
- 
+
 package org.ow2.easywsdl.wsdl.impl.wsdl20;
 
 import java.util.List;
 
-import javax.xml.bind.JAXBElement;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Unmarshaller;
 import javax.xml.namespace.QName;
+
+import jakarta.xml.bind.JAXBElement;
+import jakarta.xml.bind.JAXBException;
+import jakarta.xml.bind.Unmarshaller;
 
 import org.ow2.easywsdl.schema.api.XmlException;
 import org.ow2.easywsdl.wsdl.api.InterfaceType;
@@ -45,7 +46,7 @@ public class InterfaceTypeImpl extends AbstractInterfaceTypeImpl<org.ow2.easywsd
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private ObjectFactory factory = new ObjectFactory();
+	private final ObjectFactory factory = new ObjectFactory();
 
 	@SuppressWarnings("unchecked")
 	public InterfaceTypeImpl(final org.ow2.easywsdl.wsdl.org.w3.ns.wsdl.InterfaceType itf, final DescriptionImpl desc) {
@@ -71,7 +72,8 @@ public class InterfaceTypeImpl extends AbstractInterfaceTypeImpl<org.ow2.easywsd
 
 	}
 
-	public QName getQName() {
+	@Override
+  public QName getQName() {
 		return new QName(this.getDescription().getTargetNamespace(), this.model.getName());
 	}
 
@@ -83,11 +85,13 @@ public class InterfaceTypeImpl extends AbstractInterfaceTypeImpl<org.ow2.easywsd
 		this.model.getOperationOrFaultOrAny().add(jabxOp);
 	}
 
-	public Operation removeOperation(final String name) {
+	@Override
+  public Operation removeOperation(final String name) {
         throw new UnsupportedOperationException();
 	}
 
-	public void setQName(final QName name) {
+	@Override
+  public void setQName(final QName name) {
 		this.model.setName(name.getLocalPart());
 	}
 
@@ -104,14 +108,15 @@ public class InterfaceTypeImpl extends AbstractInterfaceTypeImpl<org.ow2.easywsd
 		return res;
 	}
 
-	public Operation createOperation() {
+	@Override
+  public Operation createOperation() {
 		return new OperationImpl(new InterfaceOperationType(), this);
 	}
 
 	public static InterfaceType replaceDOMElementByInterfaceType(final WSDLElement parent, final Element childToReplace, WSDLReaderImpl reader) throws WSDLException {
 		InterfaceType res = null;
 		try {
-			if ((childToReplace != null) && ((childToReplace.getLocalName().equals("interface")) && (childToReplace.getNamespaceURI().equals(Constants.WSDL_20_NAMESPACE)))) {
+			if (childToReplace != null && childToReplace.getLocalName().equals("interface") && childToReplace.getNamespaceURI().equals(Constants.WSDL_20_NAMESPACE)) {
 				JAXBElement<InterfaceType> jaxbElement;
 
                 Unmarshaller unmarshaller = WSDLJAXBContext.getJaxbContext().createUnmarshaller();

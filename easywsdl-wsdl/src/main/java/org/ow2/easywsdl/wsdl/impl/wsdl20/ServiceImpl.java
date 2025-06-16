@@ -1,6 +1,6 @@
 /**
  * Copyright (c) 2008-2012 EBM WebSourcing, 2012-2023 Linagora
- * 
+ *
  * This program/library is free software: you can redistribute it and/or modify
  * it under the terms of the New BSD License (3-clause license).
  *
@@ -13,15 +13,16 @@
  * along with this program/library; If not, see http://directory.fsf.org/wiki/License:BSD_3Clause/
  * for the New BSD License (3-clause license).
  */
- 
+
 package org.ow2.easywsdl.wsdl.impl.wsdl20;
 
 import java.util.List;
 
-import javax.xml.bind.JAXBElement;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Unmarshaller;
 import javax.xml.namespace.QName;
+
+import jakarta.xml.bind.JAXBElement;
+import jakarta.xml.bind.JAXBException;
+import jakarta.xml.bind.Unmarshaller;
 
 import org.ow2.easywsdl.schema.api.XmlException;
 import org.ow2.easywsdl.wsdl.api.Endpoint;
@@ -47,7 +48,7 @@ public class ServiceImpl extends AbstractServiceImpl<ServiceType, InterfaceType,
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private ObjectFactory factory = new ObjectFactory();
+	private final ObjectFactory factory = new ObjectFactory();
 
 	@SuppressWarnings("unchecked")
 	public ServiceImpl(final ServiceType service, final DescriptionImpl desc) {
@@ -79,23 +80,27 @@ public class ServiceImpl extends AbstractServiceImpl<ServiceType, InterfaceType,
 		this.model.getEndpointOrAny().add(ep);
 	}
 
-	public QName getQName() {
+	@Override
+  public QName getQName() {
 		QName serviceName = null;
 		serviceName = new QName(this.desc.getTargetNamespace(), this.model.getName());
 		return serviceName;
 	}
 
-	public Endpoint removeEndpoint(final String name) {
+	@Override
+  public Endpoint removeEndpoint(final String name) {
         throw new UnsupportedOperationException();
 	}
 
-	public void setQName(final QName name) {
+	@Override
+  public void setQName(final QName name) {
 		this.model.setName(name.getLocalPart());
 	}
 
 	/**
      * {@inheritDoc}
      */
+    @Override
     public InterfaceType getInterface() throws WSDLException {
 		return (InterfaceType) this.desc.getInterface(this.model.getInterface());
 	}
@@ -113,18 +118,20 @@ public class ServiceImpl extends AbstractServiceImpl<ServiceType, InterfaceType,
 		return res;
 	}
 
-	public Endpoint createEndpoint() {
+	@Override
+  public Endpoint createEndpoint() {
 		return new EndpointImpl(new EndpointType(), this);
 	}
 
-	public void setInterface(InterfaceType itf) {
+	@Override
+  public void setInterface(InterfaceType itf) {
 		this.model.setInterface(itf.getQName());
 	}
 
 	public static ServiceType replaceDOMElementByServiceType(final WSDLElement parent, final Element childToReplace, WSDLReaderImpl reader) throws WSDLException {
 		ServiceType res = null;
 		try {
-			if ((childToReplace != null) && ((childToReplace.getLocalName().equals("service")) && (childToReplace.getNamespaceURI().equals(Constants.WSDL_20_NAMESPACE)))) {
+			if (childToReplace != null && childToReplace.getLocalName().equals("service") && childToReplace.getNamespaceURI().equals(Constants.WSDL_20_NAMESPACE)) {
 				JAXBElement<ServiceType> jaxbElement;
 
                 Unmarshaller unmarshaller = WSDLJAXBContext.getJaxbContext().createUnmarshaller();

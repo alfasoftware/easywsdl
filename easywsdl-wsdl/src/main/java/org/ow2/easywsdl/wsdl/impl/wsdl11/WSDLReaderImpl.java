@@ -1,6 +1,6 @@
 /**
  * Copyright (c) 2008-2012 EBM WebSourcing, 2012-2023 Linagora
- * 
+ *
  * This program/library is free software: you can redistribute it and/or modify
  * it under the terms of the New BSD License (3-clause license).
  *
@@ -13,7 +13,7 @@
  * along with this program/library; If not, see http://directory.fsf.org/wiki/License:BSD_3Clause/
  * for the New BSD License (3-clause license).
  */
- 
+
 package org.ow2.easywsdl.wsdl.impl.wsdl11;
 
 import java.io.ByteArrayInputStream;
@@ -28,14 +28,15 @@ import java.net.URL;
 import java.util.Map;
 import java.util.logging.Logger;
 
-import javax.xml.bind.JAXBElement;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Unmarshaller;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.sax.SAXSource;
 import javax.xml.transform.stream.StreamResult;
+
+import jakarta.xml.bind.JAXBElement;
+import jakarta.xml.bind.JAXBException;
+import jakarta.xml.bind.Unmarshaller;
 
 import org.ow2.easywsdl.schema.api.absItf.AbsItfSchema;
 import org.ow2.easywsdl.schema.util.EasyXMLFilter;
@@ -70,7 +71,8 @@ public class WSDLReaderImpl extends AbstractWSDLReaderImpl implements org.ow2.ea
 	/**
 	 * {@inheritDoc}
 	 */
-	public Description read(final URL wsdlURL) throws WSDLException, IOException, URISyntaxException {
+	@Override
+  public Description read(final URL wsdlURL) throws WSDLException, IOException, URISyntaxException {
         InputStream is = wsdlURL.openStream();
 		try {
 			InputSource inputSource = new InputSource(is);
@@ -87,14 +89,16 @@ public class WSDLReaderImpl extends AbstractWSDLReaderImpl implements org.ow2.ea
 	/**
 	 * {@inheritDoc}
 	 */
-	public Description read(final InputSource inputSource) throws WSDLException, MalformedURLException, URISyntaxException {
+	@Override
+  public Description read(final InputSource inputSource) throws WSDLException, MalformedURLException, URISyntaxException {
 		return this.read(inputSource, null, null);
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public Description read(final Document doc) throws WSDLException, URISyntaxException {
+	@Override
+  public Description read(final Document doc) throws WSDLException, URISyntaxException {
 
 			// The DOM Document needs to be converted into an InputStource
 			final ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -127,7 +131,8 @@ public class WSDLReaderImpl extends AbstractWSDLReaderImpl implements org.ow2.ea
 	/**
 	 * {@inheritDoc}
 	 */
-	public Description read(InputSource inputSource, Map<URI, AbsItfDescription> descriptionImports, Map<URI, AbsItfSchema> schemaImports) throws WSDLException, MalformedURLException, URISyntaxException {
+	@Override
+  public Description read(InputSource inputSource, Map<URI, AbsItfDescription> descriptionImports, Map<URI, AbsItfSchema> schemaImports) throws WSDLException, MalformedURLException, URISyntaxException {
 		final String systemId = inputSource.getSystemId();
 		URI systemIdURI;
 		if (systemId != null ) {

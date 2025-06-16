@@ -14,7 +14,7 @@
  along with this program/library; If not, see http://directory.fsf.org/wiki/License:BSD_3Clause/
  for the New BSD License (3-clause license).
 -->
-<jaxb:bindings xmlns:jaxb="http://java.sun.com/xml/ns/jaxb" version="2.0" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+<jaxb:bindings xmlns:jaxb="https://jakarta.ee/xml/ns/jaxb" version="3.0" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 	<jaxb:bindings schemaLocation="org/ow2/easywsdl/schema/XMLSchema.xsd"
 		node="/xs:schema">
 		<jaxb:schemaBindings>

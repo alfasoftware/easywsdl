@@ -1,6 +1,6 @@
 /**
  * Copyright (c) 2008-2012 EBM WebSourcing, 2012-2023 Linagora
- * 
+ *
  * This program/library is free software: you can redistribute it and/or modify
  * it under the terms of the New BSD License (3-clause license).
  *
@@ -13,10 +13,10 @@
  * along with this program/library; If not, see http://directory.fsf.org/wiki/License:BSD_3Clause/
  * for the New BSD License (3-clause license).
  */
- 
+
 package org.ow2.easywsdl.schema.util;
 
-import com.sun.xml.bind.marshaller.NamespacePrefixMapper;
+import org.glassfish.jaxb.runtime.marshaller.NamespacePrefixMapper;
 
 /**
  * @author Nicolas Salatge - EBM WebSourcing
@@ -25,16 +25,16 @@ public class CustomPrefixMapper extends NamespacePrefixMapper {
 
 	public CustomPrefixMapper()
 	{}
-	
+
 	@Override
 	public String getPreferredPrefix(String namespaceUri, String suggestion,
 			boolean requirePrefix) {
-		
+
 		if (namespaceUri.equals("http://www.w3.org/2001/XMLSchema"))
 		{
 			return "xs";
-		}		
-		
+		}
+
 		return suggestion;
 	}
 

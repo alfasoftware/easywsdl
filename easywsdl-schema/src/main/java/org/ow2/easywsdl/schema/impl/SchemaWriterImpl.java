@@ -1,6 +1,6 @@
 /**
  * Copyright (c) 2008-2012 EBM WebSourcing, 2012-2023 Linagora
- * 
+ *
  * This program/library is free software: you can redistribute it and/or modify
  * it under the terms of the New BSD License (3-clause license).
  *
@@ -13,17 +13,18 @@
  * along with this program/library; If not, see http://directory.fsf.org/wiki/License:BSD_3Clause/
  * for the New BSD License (3-clause license).
  */
- 
+
 package org.ow2.easywsdl.schema.impl;
 
 import java.io.OutputStream;
 
-import javax.xml.bind.JAXBElement;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
 import javax.xml.namespace.QName;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+
+import jakarta.xml.bind.JAXBElement;
+import jakarta.xml.bind.JAXBException;
+import jakarta.xml.bind.Marshaller;
 
 import org.ow2.easywsdl.schema.api.Schema;
 import org.ow2.easywsdl.schema.api.SchemaException;
@@ -35,7 +36,7 @@ import org.w3c.dom.Document;
  */
 public class SchemaWriterImpl implements org.ow2.easywsdl.schema.api.SchemaWriter {
 	private DocumentBuilderFactory builder = null;
-	
+
 	/*
 	 * Private object initializations
 	 */
@@ -62,7 +63,7 @@ public class SchemaWriterImpl implements org.ow2.easywsdl.schema.api.SchemaWrite
 			// marshaller.setProperty("com.sun.xml.bind.namespacePrefixMapper",
 			// namespaceMapper);
 			marshaller.marshal(element, doc);
-			
+
 		} catch (final JAXBException ex) {
 			throw new SchemaException("Failed to build XML binding from SchemaImpl descriptor Java classes", ex);
 		} catch (final ParserConfigurationException ex) {
@@ -74,9 +75,10 @@ public class SchemaWriterImpl implements org.ow2.easywsdl.schema.api.SchemaWrite
 
 
 
-	public Document getDocument(final Schema schemaDef) throws SchemaException {
+	@Override
+  public Document getDocument(final Schema schemaDef) throws SchemaException {
 		Document doc = null;
-		if ((schemaDef != null) && (schemaDef instanceof org.ow2.easywsdl.schema.impl.SchemaImpl)) {
+		if (schemaDef != null && schemaDef instanceof org.ow2.easywsdl.schema.impl.SchemaImpl) {
 			try {
 				doc = this.convertSchema2DOMElement(((org.ow2.easywsdl.schema.impl.SchemaImpl) schemaDef).getModel(), schemaDef.getAllNamespaces());
 				if (schemaDef.getDocumentURI() != null) {
@@ -89,16 +91,19 @@ public class SchemaWriterImpl implements org.ow2.easywsdl.schema.api.SchemaWrite
 		return doc;
 	}
 
-	public boolean getFeature(final String name) throws IllegalArgumentException {
+	@Override
+  public boolean getFeature(final String name) throws IllegalArgumentException {
         throw new UnsupportedOperationException();
 	}
 
-	public void setFeature(final String name, final boolean value) throws IllegalArgumentException {
+	@Override
+  public void setFeature(final String name, final boolean value) throws IllegalArgumentException {
         throw new UnsupportedOperationException();
 	}
 
-	public void writeSchema(final Schema schemaDef, OutputStream output) throws SchemaException {
-		if ((schemaDef != null) && (schemaDef instanceof org.ow2.easywsdl.schema.impl.SchemaImpl)) {
+	@Override
+  public void writeSchema(final Schema schemaDef, OutputStream output) throws SchemaException {
+		if (schemaDef != null && schemaDef instanceof org.ow2.easywsdl.schema.impl.SchemaImpl) {
 			try {
 
 				org.ow2.easywsdl.schema.org.w3._2001.xmlschema.Schema schemaDescriptor = ((org.ow2.easywsdl.schema.impl.SchemaImpl) schemaDef).getModel();

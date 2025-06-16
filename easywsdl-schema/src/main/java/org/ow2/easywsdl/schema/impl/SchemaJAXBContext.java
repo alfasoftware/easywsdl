@@ -1,6 +1,6 @@
 /**
  * Copyright (c) 2008-2012 EBM WebSourcing, 2012-2023 Linagora
- * 
+ *
  * This program/library is free software: you can redistribute it and/or modify
  * it under the terms of the New BSD License (3-clause license).
  *
@@ -13,7 +13,7 @@
  * along with this program/library; If not, see http://directory.fsf.org/wiki/License:BSD_3Clause/
  * for the New BSD License (3-clause license).
  */
- 
+
 package org.ow2.easywsdl.schema.impl;
 
 import java.util.Arrays;
@@ -21,8 +21,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
+import jakarta.xml.bind.JAXBContext;
+import jakarta.xml.bind.JAXBException;
 
 import org.ow2.easywsdl.schema.api.SchemaException;
 /**
@@ -48,7 +48,7 @@ public final class SchemaJAXBContext {
         return SCHEMA_DEFAULT_OBJECT_FACTORIES.clone();
     }
 
-    private Set<Class<?>> currentObjectFactories = new HashSet<Class<?>>();
+    private final Set<Class<?>> currentObjectFactories = new HashSet<>();
 
     /**
      * The JAXB context

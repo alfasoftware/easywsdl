@@ -1,6 +1,6 @@
 /**
  * Copyright (c) 2008-2012 EBM WebSourcing, 2012-2023 Linagora
- * 
+ *
  * This program/library is free software: you can redistribute it and/or modify
  * it under the terms of the New BSD License (3-clause license).
  *
@@ -13,10 +13,10 @@
  * along with this program/library; If not, see http://directory.fsf.org/wiki/License:BSD_3Clause/
  * for the New BSD License (3-clause license).
  */
- 
+
 package org.ow2.easywsdl.schema.impl;
 
-import javax.xml.bind.JAXBElement;
+import jakarta.xml.bind.JAXBElement;
 
 import org.ow2.easywsdl.schema.api.All;
 import org.ow2.easywsdl.schema.api.Element;
@@ -55,7 +55,8 @@ public class AllImpl extends AbstractAllImpl<org.ow2.easywsdl.schema.org.w3._200
 
 	}
 
-	public Element createElement() {
+	@Override
+  public Element createElement() {
 		return new ElementImpl(new LocalElement(), this);
 	}
 

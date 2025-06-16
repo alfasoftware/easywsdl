@@ -1,6 +1,6 @@
 /**
  * Copyright (c) 2008-2012 EBM WebSourcing, 2012-2023 Linagora
- * 
+ *
  * This program/library is free software: you can redistribute it and/or modify
  * it under the terms of the New BSD License (3-clause license).
  *
@@ -13,14 +13,15 @@
  * along with this program/library; If not, see http://directory.fsf.org/wiki/License:BSD_3Clause/
  * for the New BSD License (3-clause license).
  */
- 
+
 package org.ow2.easywsdl.wsdl.impl.wsdl20;
 
 import java.util.List;
 import java.util.logging.Logger;
 
-import javax.xml.bind.JAXBElement;
 import javax.xml.namespace.QName;
+
+import jakarta.xml.bind.JAXBElement;
 
 import org.ow2.easywsdl.schema.api.XmlException;
 import org.ow2.easywsdl.wsdl.api.Fault;
@@ -48,7 +49,7 @@ public class OperationImpl extends
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private ObjectFactory factory = new ObjectFactory();
+	private final ObjectFactory factory = new ObjectFactory();
 
 	private static final Logger LOG = Logger.getLogger(OperationImpl.class.getName());
 
@@ -118,21 +119,24 @@ public class OperationImpl extends
 						new QName("http://www.w3.org/ns/wsdl", "input"));
 	}
 
-	public void addFault(final Fault fault) {
+	@Override
+  public void addFault(final Fault fault) {
 		JAXBElement<MessageRefFaultType> jaxbFault = factory
-				.createInterfaceOperationTypeOutfault(((MessageRefFaultType) ((AbstractWSDLElementImpl) fault)
-						.getModel()));
+				.createInterfaceOperationTypeOutfault((MessageRefFaultType) ((AbstractWSDLElementImpl) fault)
+						.getModel());
 		super.getFaults().add(fault);
 		this.model.getInputOrOutputOrInfault().add(jaxbFault);
 	}
 
-	@SuppressWarnings("unchecked")
+	@Override
+  @SuppressWarnings("unchecked")
 	public QName getQName() {
 		return new QName(((AbstractInterfaceTypeImpl) this.getInterface())
 				.getDescription().getTargetNamespace(), this.model.getName());
 	}
 
-	public List<String> getParameterOrdering() {
+	@Override
+  public List<String> getParameterOrdering() {
 		return null;
 	}
 
@@ -151,7 +155,7 @@ public class OperationImpl extends
 					Object value = ((JAXBElement) item).getValue();
 					if (isInput((JAXBElement) item, value)) {
 						((JAXBElement) item)
-								.setValue((MessageRefType) ((AbstractWSDLElementImpl) input)
+								.setValue(((AbstractWSDLElementImpl) input)
 										.getModel());
 						break;
 					}
@@ -176,7 +180,7 @@ public class OperationImpl extends
 					Object value = ((JAXBElement) item).getValue();
 					if (isOutput((JAXBElement) item, value)) {
 						((JAXBElement) item)
-								.setValue((MessageRefType) ((AbstractWSDLElementImpl) output)
+								.setValue(((AbstractWSDLElementImpl) output)
 										.getModel());
 						break;
 					}
@@ -186,32 +190,38 @@ public class OperationImpl extends
 		super.setOutput(output);
 	}
 
-	public Fault removeFault(final String name) {
+	@Override
+  public Fault removeFault(final String name) {
         throw new UnsupportedOperationException();
 	}
 
-	public void setQName(final QName name) {
+	@Override
+  public void setQName(final QName name) {
 		this.model.setName(name.getLocalPart());
 	}
 
-	public void setParameterOrdering(final List<String> parameterOrder)
+	@Override
+  public void setParameterOrdering(final List<String> parameterOrder)
 			throws WSDLException {
 		LOG.warning("Do nothing: parameterOrdering not exist in wsdl 2.0");
 	}
 
-	public MEPPatternConstants getPattern() {
+	@Override
+  public MEPPatternConstants getPattern() {
         return MEPPatternConstants.fromString(this.model.getPattern());
 	}
 
-	public void setPattern(final MEPPatternConstants pattern) {
+	@Override
+  public void setPattern(final MEPPatternConstants pattern) {
         this.model.setPattern(pattern.toString());
 	}
 
-	public Fault getFaultByElementName(final QName name) {
+	@Override
+  public Fault getFaultByElementName(final QName name) {
 		Fault res = null;
 		for (final Fault f : this.faults) {
-			if ((f.getElement() != null)
-					&& (f.getElement().getQName().equals(name))) {
+			if (f.getElement() != null
+					&& f.getElement().getQName().equals(name)) {
 				res = f;
 				break;
 			}
@@ -219,7 +229,8 @@ public class OperationImpl extends
 		return res;
 	}
 
-	public Fault removeFaultByElementName(final QName name) {
+	@Override
+  public Fault removeFaultByElementName(final QName name) {
         throw new UnsupportedOperationException();
 	}
 
@@ -236,15 +247,18 @@ public class OperationImpl extends
 		return res;
 	}
 
-	public Fault createFault() {
+	@Override
+  public Fault createFault() {
 		return new FaultImpl(new MessageRefFaultType(), this);
 	}
 
-	public Input createInput() {
+	@Override
+  public Input createInput() {
 		return new InputImpl(new MessageRefType(), this);
 	}
 
-	public Output createOutput() {
+	@Override
+  public Output createOutput() {
 		return new OutputImpl(new MessageRefType(), this);
 	}
 }

@@ -1,6 +1,6 @@
 /**
  * Copyright (c) 2008-2012 EBM WebSourcing, 2012-2023 Linagora
- * 
+ *
  * This program/library is free software: you can redistribute it and/or modify
  * it under the terms of the New BSD License (3-clause license).
  *
@@ -13,13 +13,13 @@
  * along with this program/library; If not, see http://directory.fsf.org/wiki/License:BSD_3Clause/
  * for the New BSD License (3-clause license).
  */
- 
+
 package org.ow2.easywsdl.wsdl.impl.wsdl11.binding.soap.soap11;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.xml.bind.JAXBElement;
+import jakarta.xml.bind.JAXBElement;
 
 import org.ow2.easywsdl.wsdl.api.WSDLException;
 import org.ow2.easywsdl.wsdl.api.abstractElmt.AbstractWSDLElementImpl;
@@ -40,7 +40,7 @@ public class SOAP11BindingImpl implements
 
     SOAP11Body soap11body = null;
 
-    List<SOAP11Header> soap11headers = new ArrayList<SOAP11Header>();
+    List<SOAP11Header> soap11headers = new ArrayList<>();
 
     SOAP11Fault soap11fault = null;
 
@@ -65,26 +65,30 @@ public class SOAP11BindingImpl implements
         }
     }
 
+    @Override
     public List<SOAP11Header> getHeaders() {
         return this.soap11headers;
     }
 
+    @Override
     public SOAP11Body getBody() {
         return this.soap11body;
     }
 
+    @Override
     public SOAP11Fault getFault() {
         return this.soap11fault;
     }
 
-	public void setBody(SOAP11Body body) throws WSDLException {
+	@Override
+  public void setBody(SOAP11Body body) throws WSDLException {
 		this.soap11body = body;
 
 		List<Object> items = null;
 		if(parent.getModel() instanceof TBindingOperationMessage) {
-			items = (List) ((TBindingOperationMessage)parent.getModel()).getAny();
+			items = ((TBindingOperationMessage)parent.getModel()).getAny();
 		} else if(parent.getModel() instanceof TBindingOperationFault) {
-			items = (List) ((TBindingOperationFault)parent.getModel()).getAny();
+			items = ((TBindingOperationFault)parent.getModel()).getAny();
 		} else {
 			throw new WSDLException("Parent unknown");
 		}
@@ -114,22 +118,25 @@ public class SOAP11BindingImpl implements
         }
 	}
 
-	public SOAP11Body createBody() {
+	@Override
+  public SOAP11Body createBody() {
 		return new SOAP11BodyImpl(new TBody(), parent);
 	}
 
-	public SOAP11Fault createFault() {
+	@Override
+  public SOAP11Fault createFault() {
 		return new SOAP11FaultImpl(new TFault());
 	}
 
-	public void setFault(SOAP11Fault fault) throws WSDLException {
+	@Override
+  public void setFault(SOAP11Fault fault) throws WSDLException {
 		this.soap11fault = fault;
 
 		List<Object> items = null;
 		if(parent.getModel() instanceof TBindingOperationMessage) {
-			items = (List) ((TBindingOperationMessage)parent.getModel()).getAny();
+			items = ((TBindingOperationMessage)parent.getModel()).getAny();
 		} else if(parent.getModel() instanceof TBindingOperationFault) {
-			items = (List) ((TBindingOperationFault)parent.getModel()).getAny();
+			items = ((TBindingOperationFault)parent.getModel()).getAny();
 		} else {
 			throw new WSDLException("Parent unknown");
 		}

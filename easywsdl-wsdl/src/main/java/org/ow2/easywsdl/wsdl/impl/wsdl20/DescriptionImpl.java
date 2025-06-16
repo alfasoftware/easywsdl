@@ -1,6 +1,6 @@
 /**
  * Copyright (c) 2008-2012 EBM WebSourcing, 2012-2023 Linagora
- * 
+ *
  * This program/library is free software: you can redistribute it and/or modify
  * it under the terms of the New BSD License (3-clause license).
  *
@@ -13,7 +13,7 @@
  * along with this program/library; If not, see http://directory.fsf.org/wiki/License:BSD_3Clause/
  * for the New BSD License (3-clause license).
  */
- 
+
 package org.ow2.easywsdl.wsdl.impl.wsdl20;
 
 import java.net.URI;
@@ -23,8 +23,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
-import javax.xml.bind.JAXBElement;
 import javax.xml.namespace.QName;
+
+import jakarta.xml.bind.JAXBElement;
 
 import org.ow2.easywsdl.schema.api.XmlException;
 import org.ow2.easywsdl.schema.api.absItf.AbsItfSchema;
@@ -73,8 +74,8 @@ public class DescriptionImpl extends AbstractDescriptionImpl<DescriptionType, Se
 
 	private static final Logger LOG = Logger.getLogger(DescriptionImpl.class.getName());
 
-	private ObjectFactory factory = new ObjectFactory();
-	
+	private final ObjectFactory factory = new ObjectFactory();
+
 	private WSDLReaderImpl reader = null;
 
 	@SuppressWarnings("unchecked")
@@ -91,7 +92,7 @@ public class DescriptionImpl extends AbstractDescriptionImpl<DescriptionType, Se
 		} else {
 			this.reader = reader;
 		}
-		
+
 		boolean find = false;
 		for (final Object element : this.model.getImportOrIncludeOrTypes()) {
 
@@ -113,10 +114,10 @@ public class DescriptionImpl extends AbstractDescriptionImpl<DescriptionType, Se
 
 				// get import
 				if (part instanceof Element) {
-					if ((((Element) part).getLocalName().equals("import")) && (((Element) part).getNamespaceURI().equals(Constants.WSDL_20_NAMESPACE))) {
+					if (((Element) part).getLocalName().equals("import") && ((Element) part).getNamespaceURI().equals(Constants.WSDL_20_NAMESPACE)) {
 						ImportType tImpt = ImportImpl.replaceDOMElementByImportType(this, (Element) part, this.reader);
 						it = this.model.getImportOrIncludeOrTypes().iterator();
-						final Import impt = new org.ow2.easywsdl.wsdl.impl.wsdl20.ImportImpl((ImportType) tImpt, this, descriptionImports, schemaImports, this.documentURI, this.reader);
+						final Import impt = new org.ow2.easywsdl.wsdl.impl.wsdl20.ImportImpl(tImpt, this, descriptionImports, schemaImports, this.documentURI, this.reader);
 						this.imports.add(impt);
 					}
 				}
@@ -143,13 +144,13 @@ public class DescriptionImpl extends AbstractDescriptionImpl<DescriptionType, Se
 
 				// get import
 				if (part instanceof Element) {
-					if ((((Element) part).getLocalName().equals("include")) && (((Element) part).getNamespaceURI().equals(Constants.WSDL_20_NAMESPACE))) {
+					if (((Element) part).getLocalName().equals("include") && ((Element) part).getNamespaceURI().equals(Constants.WSDL_20_NAMESPACE)) {
 						if(reader == null) {
 							reader = new WSDLReaderImpl();
 						}
 						IncludeType tIncl = IncludeImpl.replaceDOMElementByIncludeType(this, (Element) part, reader);
 						it = this.model.getImportOrIncludeOrTypes().iterator();
-						final Include incl = new org.ow2.easywsdl.wsdl.impl.wsdl20.IncludeImpl((IncludeType) tIncl, this, descriptionImports, schemaImports, this.documentURI, this.reader);
+						final Include incl = new org.ow2.easywsdl.wsdl.impl.wsdl20.IncludeImpl(tIncl, this, descriptionImports, schemaImports, this.documentURI, this.reader);
 						this.includes.add(incl);
 					}
 				}
@@ -178,13 +179,13 @@ public class DescriptionImpl extends AbstractDescriptionImpl<DescriptionType, Se
 
 				// get import
 				if (part instanceof Element) {
-					if ((((Element) part).getLocalName().equals("types")) && (((Element) part).getNamespaceURI().equals(Constants.WSDL_20_NAMESPACE))) {
+					if (((Element) part).getLocalName().equals("types") && ((Element) part).getNamespaceURI().equals(Constants.WSDL_20_NAMESPACE)) {
 						if(reader == null) {
 							reader = new WSDLReaderImpl();
 						}
 						TypesType tTypes = TypesImpl.replaceDOMElementByTypesType(this, (Element) part, reader);
 						it = this.model.getImportOrIncludeOrTypes().iterator();
-						this.types = new org.ow2.easywsdl.wsdl.impl.wsdl20.TypesImpl((org.ow2.easywsdl.wsdl.org.w3.ns.wsdl.TypesType) tTypes, this, schemaImports, this.reader);
+						this.types = new org.ow2.easywsdl.wsdl.impl.wsdl20.TypesImpl(tTypes, this, schemaImports, this.reader);
 					}
 				}
 			}
@@ -210,7 +211,7 @@ public class DescriptionImpl extends AbstractDescriptionImpl<DescriptionType, Se
 
 				// get import
 				if (part instanceof Element) {
-					if ((((Element) part).getLocalName().equals("interface")) && (((Element) part).getNamespaceURI().equals(Constants.WSDL_20_NAMESPACE))) {
+					if (((Element) part).getLocalName().equals("interface") && ((Element) part).getNamespaceURI().equals(Constants.WSDL_20_NAMESPACE)) {
 						if(reader == null) {
 							reader = new WSDLReaderImpl();
 						}
@@ -243,13 +244,13 @@ public class DescriptionImpl extends AbstractDescriptionImpl<DescriptionType, Se
 
 				// get import
 				if (part instanceof Element) {
-					if ((((Element) part).getLocalName().equals("binding")) && (((Element) part).getNamespaceURI().equals(Constants.WSDL_20_NAMESPACE))) {
+					if (((Element) part).getLocalName().equals("binding") && ((Element) part).getNamespaceURI().equals(Constants.WSDL_20_NAMESPACE)) {
 						if(reader == null) {
 							reader = new WSDLReaderImpl();
 						}
 						BindingType tBinding = BindingImpl.replaceDOMElementByBindingType(this, (Element) part, reader);
 						it = this.model.getImportOrIncludeOrTypes().iterator();
-						final Binding b = new org.ow2.easywsdl.wsdl.impl.wsdl20.BindingImpl((BindingType) tBinding, this);
+						final Binding b = new org.ow2.easywsdl.wsdl.impl.wsdl20.BindingImpl(tBinding, this);
 						this.bindings.add(b);
 					}
 				}
@@ -276,13 +277,13 @@ public class DescriptionImpl extends AbstractDescriptionImpl<DescriptionType, Se
 
 				// get import
 				if (part instanceof Element) {
-					if ((((Element) part).getLocalName().equals("service")) && (((Element) part).getNamespaceURI().equals(Constants.WSDL_20_NAMESPACE))) {
+					if (((Element) part).getLocalName().equals("service") && ((Element) part).getNamespaceURI().equals(Constants.WSDL_20_NAMESPACE)) {
 						if(reader == null) {
 							reader = new WSDLReaderImpl();
 						}
 						ServiceType tService = ServiceImpl.replaceDOMElementByServiceType(this, (Element) part, reader);
 						it = this.model.getImportOrIncludeOrTypes().iterator();
-						final Service s = new org.ow2.easywsdl.wsdl.impl.wsdl20.ServiceImpl((ServiceType) tService, this);
+						final Service s = new org.ow2.easywsdl.wsdl.impl.wsdl20.ServiceImpl(tService, this);
 						this.services.add(s);
 					}
 				}
@@ -320,7 +321,7 @@ public class DescriptionImpl extends AbstractDescriptionImpl<DescriptionType, Se
 	@Override
 	@SuppressWarnings("unchecked")
 	public void addInterface(final InterfaceType interfaceType) {
-		JAXBElement<org.ow2.easywsdl.wsdl.org.w3.ns.wsdl.InterfaceType> itf = factory.createInterface(((org.ow2.easywsdl.wsdl.org.w3.ns.wsdl.InterfaceType) ((AbstractWSDLElementImpl) interfaceType).getModel()));
+		JAXBElement<org.ow2.easywsdl.wsdl.org.w3.ns.wsdl.InterfaceType> itf = factory.createInterface((org.ow2.easywsdl.wsdl.org.w3.ns.wsdl.InterfaceType) ((AbstractWSDLElementImpl) interfaceType).getModel());
 		super.addInterface(interfaceType);
 		this.model.getImportOrIncludeOrTypes().add(itf);
 	}
@@ -333,30 +334,35 @@ public class DescriptionImpl extends AbstractDescriptionImpl<DescriptionType, Se
 		this.model.getImportOrIncludeOrTypes().add(s);
 	}
 
-	public Binding createBinding() {
+	@Override
+  public Binding createBinding() {
 		return new BindingImpl(new BindingType(), this);
 	}
 
-	public Import createImport() throws WSDLException, WSDLImportException {
+	@Override
+  public Import createImport() throws WSDLException, WSDLImportException {
 		return new ImportImpl(new ImportType(), this, null, null, this.documentURI, this.reader);
 	}
 
-	public InterfaceType createInterface() {
+	@Override
+  public InterfaceType createInterface() {
 		return new InterfaceTypeImpl(new org.ow2.easywsdl.wsdl.org.w3.ns.wsdl.InterfaceType(), this);
 	}
 
-	public Service createService() {
+	@Override
+  public Service createService() {
 		return new ServiceImpl(new ServiceType(), this);
 	}
 
 	@Override
 	public void setTypes(Types types) {
 		super.setTypes(types);
-		JAXBElement<org.ow2.easywsdl.wsdl.org.w3.ns.wsdl.TypesType> jaxbTypes = factory.createTypes(((org.ow2.easywsdl.wsdl.org.w3.ns.wsdl.TypesType) ((AbstractWSDLElementImpl) types).getModel()));
+		JAXBElement<org.ow2.easywsdl.wsdl.org.w3.ns.wsdl.TypesType> jaxbTypes = factory.createTypes((org.ow2.easywsdl.wsdl.org.w3.ns.wsdl.TypesType) ((AbstractWSDLElementImpl) types).getModel());
 		this.model.getImportOrIncludeOrTypes().add(jaxbTypes);
 	}
 
-	public Types createTypes() {
+	@Override
+  public Types createTypes() {
 		Types res = null;
 		try {
 			res = new TypesImpl(new TypesType(), this, null, this.reader);
@@ -367,47 +373,58 @@ public class DescriptionImpl extends AbstractDescriptionImpl<DescriptionType, Se
 		return res;
 	}
 
-	public QName getQName() throws WSDLException {
+	@Override
+  public QName getQName() throws WSDLException {
 		return null;
 	}
 
-	public String getTargetNamespace() {
+	@Override
+  public String getTargetNamespace() {
 		return this.model.getTargetNamespace();
 	}
 
-	public Binding removeBinding(final QName name) {
+	@Override
+  public Binding removeBinding(final QName name) {
         throw new UnsupportedOperationException();
 	}
 
-	public Import removeImport(final Import importDef) {
+	@Override
+  public Import removeImport(final Import importDef) {
         throw new UnsupportedOperationException();
 	}
 
-	public String removeNamespace(final String prefix) {
+	@Override
+  public String removeNamespace(final String prefix) {
         throw new UnsupportedOperationException();
 	}
 
-	public InterfaceType removeInterface(final QName name) {
+	@Override
+  public InterfaceType removeInterface(final QName name) {
         throw new UnsupportedOperationException();
 	}
 
-	public Service removeService(final QName name) {
+	@Override
+  public Service removeService(final QName name) {
         throw new UnsupportedOperationException();
 	}
 
-	public void setQName(final QName name) throws WSDLException {
+	@Override
+  public void setQName(final QName name) throws WSDLException {
 		LOG.warning("Do nothing: No name in description");
 	}
 
-	public void setTargetNamespace(final String targetNamespace) {
+	@Override
+  public void setTargetNamespace(final String targetNamespace) {
 		this.model.setTargetNamespace(targetNamespace);
 	}
 
-	public Include removeInclude(final Include includeDef) {
+	@Override
+  public Include removeInclude(final Include includeDef) {
         throw new UnsupportedOperationException();
 	}
 
-	public WSDLVersionConstants getVersion() {
+	@Override
+  public WSDLVersionConstants getVersion() {
 		return WSDLVersionConstants.WSDL20;
 	}
 
@@ -424,7 +441,8 @@ public class DescriptionImpl extends AbstractDescriptionImpl<DescriptionType, Se
 		return res;
 	}
 
-	public Binding createDefaultSoapBinding(String bindingName, Endpoint endpoint, InterfaceType itf) {
+	@Override
+  public Binding createDefaultSoapBinding(String bindingName, Endpoint endpoint, InterfaceType itf) {
 		// create binding
 		Binding binding = (Binding) ((AbstractInterfaceTypeImpl) itf).getDescription().createBinding();
 		binding.setQName(new QName(((AbstractInterfaceTypeImpl) itf).getDescription().getTargetNamespace(), bindingName));

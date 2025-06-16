@@ -1,6 +1,6 @@
 /**
  * Copyright (c) 2008-2012 EBM WebSourcing, 2012-2023 Linagora
- * 
+ *
  * This program/library is free software: you can redistribute it and/or modify
  * it under the terms of the New BSD License (3-clause license).
  *
@@ -13,11 +13,12 @@
  * along with this program/library; If not, see http://directory.fsf.org/wiki/License:BSD_3Clause/
  * for the New BSD License (3-clause license).
  */
- 
+
 package org.ow2.easywsdl.wsdl.impl.wsdl11;
 
-import javax.xml.bind.JAXBElement;
 import javax.xml.namespace.QName;
+
+import jakarta.xml.bind.JAXBElement;
 
 import org.ow2.easywsdl.wsdl.api.Binding;
 import org.ow2.easywsdl.wsdl.api.Service;
@@ -40,7 +41,7 @@ public class EndpointImpl extends AbstractEndpointImpl<TPort, Service, Binding> 
 
 
 
-    private ObjectFactory soapFactory = new ObjectFactory();
+    private final ObjectFactory soapFactory = new ObjectFactory();
 
     public EndpointImpl(final TPort endpoint, final Service service) {
         super(endpoint, (AbstractWSDLElementImpl)service);
@@ -52,6 +53,7 @@ public class EndpointImpl extends AbstractEndpointImpl<TPort, Service, Binding> 
 
     }
 
+    @Override
     @SuppressWarnings("unchecked")
     public Binding getBinding() {
         final QName bindingName = this.model.getBinding();
@@ -59,10 +61,12 @@ public class EndpointImpl extends AbstractEndpointImpl<TPort, Service, Binding> 
                 bindingName);
     }
 
+    @Override
     public String getName() {
         return this.model.getName();
     }
 
+    @Override
     @SuppressWarnings("unchecked")
     public String getAddress() {
         String location = null;
@@ -86,14 +90,17 @@ public class EndpointImpl extends AbstractEndpointImpl<TPort, Service, Binding> 
         return location;
     }
 
+    @Override
     public void setBinding(final Binding binding) {
         this.model.setBinding(binding.getQName());
     }
 
+    @Override
     public void setName(final String name) {
         this.model.setName(name);
     }
 
+    @Override
     @SuppressWarnings("unchecked")
     public void setAddress(final String address) {
     	boolean find = false;
@@ -126,10 +133,12 @@ public class EndpointImpl extends AbstractEndpointImpl<TPort, Service, Binding> 
         }
     }
 
+    @Override
     public String getHttpAuthenticationRealm() {
         return null;
     }
 
+    @Override
     public String getHttpAuthenticationScheme() {
         return null;
     }

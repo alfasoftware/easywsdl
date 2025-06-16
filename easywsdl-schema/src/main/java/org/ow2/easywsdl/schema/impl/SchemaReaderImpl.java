@@ -1,6 +1,6 @@
 /**
  * Copyright (c) 2008-2012 EBM WebSourcing, 2012-2023 Linagora
- * 
+ *
  * This program/library is free software: you can redistribute it and/or modify
  * it under the terms of the New BSD License (3-clause license).
  *
@@ -13,7 +13,7 @@
  * along with this program/library; If not, see http://directory.fsf.org/wiki/License:BSD_3Clause/
  * for the New BSD License (3-clause license).
  */
- 
+
 package org.ow2.easywsdl.schema.impl;
 
 import java.io.ByteArrayInputStream;
@@ -29,13 +29,14 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Logger;
 
-import javax.xml.bind.JAXBElement;
-import javax.xml.bind.JAXBException;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.sax.SAXSource;
 import javax.xml.transform.stream.StreamResult;
+
+import jakarta.xml.bind.JAXBElement;
+import jakarta.xml.bind.JAXBException;
 
 import org.ow2.easywsdl.schema.api.Schema;
 import org.ow2.easywsdl.schema.api.SchemaException;
@@ -59,12 +60,12 @@ public class SchemaReaderImpl extends AbstractSchemaReader implements org.ow2.ea
 
 	private static final Logger LOG = Logger.getLogger(SchemaReaderImpl.class.getName());
 
-	private Map<FeatureConstants, Object> features = new HashMap<FeatureConstants, Object>();
+	private Map<FeatureConstants, Object> features = new HashMap<>();
 
-	private Map<URI, AbsItfSchema> importList = new HashMap<URI, AbsItfSchema>();
+	private final Map<URI, AbsItfSchema> importList = new HashMap<>();
 
     private final URILocationResolver schemaLocationResolver = new URILocationResolver();
-    
+
     private URI documentBaseURI;
 
 	/*
@@ -76,10 +77,11 @@ public class SchemaReaderImpl extends AbstractSchemaReader implements org.ow2.ea
 		this.features.put(FeatureConstants.VERBOSE, false);
 		this.features.put(FeatureConstants.IMPORT_DOCUMENTS, true);
 	}
-	
+
 	/**
      * {@inheritDoc}
      */
+    @Override
     public void setDocumentBaseURI(final URI documentBaseURI) {
 	    this.documentBaseURI = documentBaseURI;
 	}
@@ -87,6 +89,7 @@ public class SchemaReaderImpl extends AbstractSchemaReader implements org.ow2.ea
     /**
      * {@inheritDoc}
      */
+    @Override
     public URI getDocumentBaseURI() {
         return this.documentBaseURI;
     }
@@ -94,7 +97,8 @@ public class SchemaReaderImpl extends AbstractSchemaReader implements org.ow2.ea
 	/**
 	 * {@inheritDoc}
 	 */
-	public Schema read(final URL schemaURL) throws SchemaException, URISyntaxException, IOException {
+	@Override
+  public Schema read(final URL schemaURL) throws SchemaException, URISyntaxException, IOException {
         InputStream stream = schemaURL.openStream();
 	    try {
             final InputSource inputSource = new InputSource(stream);
@@ -111,6 +115,7 @@ public class SchemaReaderImpl extends AbstractSchemaReader implements org.ow2.ea
     /**
      * {@inheritDoc}
      */
+    @Override
     public Schema read(final InputSource inputSource)
             throws SchemaException, URISyntaxException, MalformedURLException {
     	if(inputSource.getSystemId() != null) {
@@ -118,17 +123,18 @@ public class SchemaReaderImpl extends AbstractSchemaReader implements org.ow2.ea
     	} else {
     		this.documentBaseURI = new URI(".");
     	}
-        return this.readSchema(inputSource, new HashMap<URI, AbsItfSchema>());
+        return this.readSchema(inputSource, new HashMap<>());
     }
-    
+
     /**
      * {@inheritDoc}
      */
+    @Override
     public Schema read(final Document doc) throws SchemaException {
         // The DOM Document needs to be converted into an InputStream
         final ByteArrayOutputStream baos = new ByteArrayOutputStream();
         final StreamResult streamResult = new StreamResult(baos);
-        
+
         // FIXME: The Transformer creation is not thread-safe
         Transformer transformer = null;
         try {
@@ -140,7 +146,7 @@ public class SchemaReaderImpl extends AbstractSchemaReader implements org.ow2.ea
             final InputSource documentInputSource = new InputSource(
                     new ByteArrayInputStream(baos.toByteArray()));
             documentInputSource.setSystemId(doc.getBaseURI());
-            
+
             return this.read(documentInputSource);
         } catch (final TransformerException e) {
             throw new SchemaException(e);
@@ -178,12 +184,12 @@ public class SchemaReaderImpl extends AbstractSchemaReader implements org.ow2.ea
 		}
 	}
 
-    
+
     protected Schema readSchema(final InputSource source, Map<URI, AbsItfSchema> imports) throws SchemaException, MalformedURLException, URISyntaxException {
     	return readSchema(source, imports, true);
     }
-    
-    
+
+
 	/**
      * @throws MalformedURLException
      *             The {@link InputSource} systemId is a malformed URL.
@@ -211,8 +217,8 @@ public class SchemaReaderImpl extends AbstractSchemaReader implements org.ow2.ea
 			// avoid duplicate validation
 			// SchemaReaderImpl.getUnMarshaller().setValidating( false );
 			LOG.fine("Loading " + systemIdURI);
-			
-			
+
+
 			// unmarshal
             final JAXBElement<org.ow2.easywsdl.schema.org.w3._2001.xmlschema.Schema> schemaBinding = SchemaJAXBContext
                     .getInstance().getJaxbContext().createUnmarshaller()
@@ -220,8 +226,8 @@ public class SchemaReaderImpl extends AbstractSchemaReader implements org.ow2.ea
 
 			final org.ow2.easywsdl.schema.org.w3._2001.xmlschema.Schema def = schemaBinding.getValue();
 
-			SchemaImpl schema = new org.ow2.easywsdl.schema.impl.SchemaImpl(systemIdURI, def, filter.getNamespaceMapper(), filter.getSchemaLocator(), this.getFeatures(), imports, this); 
-			if (init) ((SchemaImpl) schema).initialize();
+			SchemaImpl schema = new org.ow2.easywsdl.schema.impl.SchemaImpl(systemIdURI, def, filter.getNamespaceMapper(), filter.getSchemaLocator(), this.getFeatures(), imports, this);
+			if (init) schema.initialize();
 			return schema;
 		} catch (SAXException e) {
 			throw new SchemaException("Can not get schema: ", e);
@@ -230,21 +236,25 @@ public class SchemaReaderImpl extends AbstractSchemaReader implements org.ow2.ea
 		}
 	}
 
-	public void setFeature(final FeatureConstants name, final Object value)
+	@Override
+  public void setFeature(final FeatureConstants name, final Object value)
 	    throws IllegalArgumentException {
 		this.features.put(name, value);
 		SchemaReaderImpl.LOG.finest("set features: name = " + name + " - value = " + value);
 	}
 
-	public Object getFeature(final FeatureConstants name) throws IllegalArgumentException {
+	@Override
+  public Object getFeature(final FeatureConstants name) throws IllegalArgumentException {
 		return this.features.get(name);
 	}
 
-	public Map<FeatureConstants, Object> getFeatures() {
+	@Override
+  public Map<FeatureConstants, Object> getFeatures() {
 		return this.features;
 	}
 
-	public void setFeatures(final Map<FeatureConstants, Object> features) {
+	@Override
+  public void setFeatures(final Map<FeatureConstants, Object> features) {
 		this.features = features;
 	}
 

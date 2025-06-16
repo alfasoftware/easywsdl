@@ -1,6 +1,6 @@
 /**
  * Copyright (c) 2008-2012 EBM WebSourcing, 2012-2023 Linagora
- * 
+ *
  * This program/library is free software: you can redistribute it and/or modify
  * it under the terms of the New BSD License (3-clause license).
  *
@@ -13,13 +13,14 @@
  * along with this program/library; If not, see http://directory.fsf.org/wiki/License:BSD_3Clause/
  * for the New BSD License (3-clause license).
  */
- 
+
 package org.ow2.easywsdl.wsdl.impl.wsdl11;
 
-import javax.xml.bind.JAXBElement;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Unmarshaller;
 import javax.xml.namespace.QName;
+
+import jakarta.xml.bind.JAXBElement;
+import jakarta.xml.bind.JAXBException;
+import jakarta.xml.bind.Unmarshaller;
 
 import org.ow2.easywsdl.wsdl.api.BindingOperation;
 import org.ow2.easywsdl.wsdl.api.InterfaceType;
@@ -40,11 +41,11 @@ import org.w3c.dom.Element;
 public class BindingImpl extends AbstractBindingImpl<TBinding, InterfaceType, BindingOperation> implements org.ow2.easywsdl.wsdl.api.Binding {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private ObjectFactory soap11BindingFactory = new ObjectFactory();
+	private final ObjectFactory soap11BindingFactory = new ObjectFactory();
 
 	public BindingImpl(final TBinding binding, final DescriptionImpl desc) {
 		super(binding, desc);
@@ -71,24 +72,29 @@ public class BindingImpl extends AbstractBindingImpl<TBinding, InterfaceType, Bi
 		this.model.getOperation().add((TBindingOperation) ((AbstractWSDLElementImpl) bindingOperation).getModel());
 	}
 
-	public QName getQName() {
+	@Override
+  public QName getQName() {
 		return new QName(this.desc.getTargetNamespace(), this.model.getName());
 	}
 
-	public BindingOperation removeBindingOperation(final String name) {
+	@Override
+  public BindingOperation removeBindingOperation(final String name) {
         throw new UnsupportedOperationException();
 	}
 
-	public void setInterface(final InterfaceType interfaceType) {
+	@Override
+  public void setInterface(final InterfaceType interfaceType) {
 		this.model.setType(interfaceType.getQName());
 		this.itf = interfaceType;
 	}
 
-	public void setQName(final QName name) {
+	@Override
+  public void setQName(final QName name) {
 		this.model.setName(name.getLocalPart());
 	}
 
-	@SuppressWarnings("unchecked")
+	@Override
+  @SuppressWarnings("unchecked")
 	public String getTransportProtocol() {
 		String protocol = null;
 		for (final Object element : this.model.getAny()) {
@@ -110,7 +116,8 @@ public class BindingImpl extends AbstractBindingImpl<TBinding, InterfaceType, Bi
 		return protocol;
 	}
 
-	public void setTransportProtocol(String transportProtocol) {
+	@Override
+  public void setTransportProtocol(String transportProtocol) {
 		boolean find = false;
 		for (final Object element : this.model.getAny()) {
 			if (element instanceof JAXBElement) {
@@ -143,7 +150,8 @@ public class BindingImpl extends AbstractBindingImpl<TBinding, InterfaceType, Bi
 		}
 	}
 
-	@SuppressWarnings("unchecked")
+	@Override
+  @SuppressWarnings("unchecked")
 	public StyleConstant getStyle() {
 		StyleConstant style = null;
 		for (final Object element : this.model.getAny()) {
@@ -163,7 +171,8 @@ public class BindingImpl extends AbstractBindingImpl<TBinding, InterfaceType, Bi
 		return style;
 	}
 
-	@SuppressWarnings("unchecked")
+	@Override
+  @SuppressWarnings("unchecked")
 	public BindingConstants getTypeOfBinding() {
 		BindingConstants res = null;
 		for (final Object element : this.model.getAny()) {
@@ -183,7 +192,8 @@ public class BindingImpl extends AbstractBindingImpl<TBinding, InterfaceType, Bi
 		return res;
 	}
 
-	public String getVersion() {
+	@Override
+  public String getVersion() {
 		String res = null;
 		if (this.getTypeOfBinding().equals(BindingConstants.SOAP11_BINDING4WSDL11)) {
 			res = "1.1";
@@ -195,30 +205,35 @@ public class BindingImpl extends AbstractBindingImpl<TBinding, InterfaceType, Bi
 		return res;
 	}
 
-	public String getHttpContentEncodingDefault() {
+	@Override
+  public String getHttpContentEncodingDefault() {
 		return null;
 	}
 
-	public String getHttpDefaultMethod() {
+	@Override
+  public String getHttpDefaultMethod() {
 		return null;
 	}
 
-	public String getHttpQueryParameterSeparatorDefault() {
+	@Override
+  public String getHttpQueryParameterSeparatorDefault() {
 		return null;
 	}
 
-	public boolean isHttpCookies() {
+	@Override
+  public boolean isHttpCookies() {
 		return false;
 	}
 
-	public BindingOperation createBindingOperation() {
+	@Override
+  public BindingOperation createBindingOperation() {
 		return new BindingOperationImpl(new TBindingOperation(), this);
 	}
 
 	public static TBinding replaceDOMElementByTBinding(final WSDLElement parent, final Element childToReplace, WSDLReaderImpl reader) throws WSDLException {
 		TBinding res = null;
 		try {
-			if ((childToReplace != null) && ((childToReplace.getLocalName().equals("binding")))) {
+			if (childToReplace != null && childToReplace.getLocalName().equals("binding")) {
 				JAXBElement<TBinding> jaxbElement;
 
                 Unmarshaller unmarshaller = WSDLJAXBContext.getJaxbContext().createUnmarshaller();

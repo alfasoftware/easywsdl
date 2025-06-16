@@ -1,6 +1,6 @@
 /**
  * Copyright (c) 2008-2012 EBM WebSourcing, 2012-2023 Linagora
- * 
+ *
  * This program/library is free software: you can redistribute it and/or modify
  * it under the terms of the New BSD License (3-clause license).
  *
@@ -13,19 +13,20 @@
  * along with this program/library; If not, see http://directory.fsf.org/wiki/License:BSD_3Clause/
  * for the New BSD License (3-clause license).
  */
- 
+
 package org.ow2.easywsdl.wsdl.impl.wsdl11;
 
 import java.io.StringWriter;
 import java.util.Map;
 
 import javax.xml.XMLConstants;
-import javax.xml.bind.JAXBElement;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
 import javax.xml.namespace.QName;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+
+import jakarta.xml.bind.JAXBElement;
+import jakarta.xml.bind.JAXBException;
+import jakarta.xml.bind.Marshaller;
 
 import org.ow2.easywsdl.wsdl.api.Description;
 import org.ow2.easywsdl.wsdl.api.WSDLException;
@@ -49,22 +50,22 @@ public class WSDLWriterImpl implements org.ow2.easywsdl.wsdl.api.WSDLWriter {
 		builder.setNamespaceAware(true);
 	}
 
-	
+
 	private final Marshaller createMarshaller(Description wsdlDef, String schemaLocation) throws WSDLException {
 		try {
             Marshaller marshaller = WSDLJAXBContext.getJaxbContext().createMarshaller();
-			marshaller.setProperty("com.sun.xml.bind.namespacePrefixMapper", 
+			marshaller.setProperty("org.glassfish.jaxb.namespacePrefixMapper",
 								   new CustomPrefixMapper(wsdlDef.getNamespaces().getPreDeclaredNamespaceUris()));
 			if (schemaLocation != null) {
 				marshaller.setProperty(Marshaller.JAXB_SCHEMA_LOCATION, schemaLocation);
-			}			
+			}
 			return marshaller;
 		 } catch (JAXBException je) {
 			 throw new WSDLException(je);
 		 }
 	}
-	
-	
+
+
 	@SuppressWarnings("unchecked")
 	// TODO: change visibility to private
 	public Document convertWSDL11Definition2DOMElement(Description wsdlDef, String schemaLocation) throws WSDLException {
@@ -75,7 +76,7 @@ public class WSDLWriterImpl implements org.ow2.easywsdl.wsdl.api.WSDLWriter {
 			doc = builder.newDocumentBuilder().newDocument();
 
 			// TODO : Check if it is a Thread safe method
-			final JAXBElement element = new JAXBElement(new QName(Constants.WSDL_11_NAMESPACE, Constants.WSDL11_ROOT_TAG), 
+			final JAXBElement element = new JAXBElement(new QName(Constants.WSDL_11_NAMESPACE, Constants.WSDL11_ROOT_TAG),
 					wsdlDescriptor.getClass(), wsdlDescriptor);
 
 			Marshaller marshaller = createMarshaller(wsdlDef, schemaLocation);
@@ -99,7 +100,7 @@ public class WSDLWriterImpl implements org.ow2.easywsdl.wsdl.api.WSDLWriter {
 			final StringWriter stringWriter = new StringWriter();
 			// TODO : Check if it is a Thread safe method
 
-			final JAXBElement element = new JAXBElement(new QName(Constants.WSDL_11_NAMESPACE, Constants.WSDL11_ROOT_TAG), 
+			final JAXBElement element = new JAXBElement(new QName(Constants.WSDL_11_NAMESPACE, Constants.WSDL11_ROOT_TAG),
 					wsdlDescriptor.getClass(), wsdlDescriptor);
 
 			Marshaller marshaller = createMarshaller(wsdlDef, schemaLocation);
@@ -111,23 +112,24 @@ public class WSDLWriterImpl implements org.ow2.easywsdl.wsdl.api.WSDLWriter {
 		}
 	}
 
-	
+
 	private static final void appendMissingOriginalNamespaceDeclarations(final Description wsdlDef, Document doc) {
-		for (Map.Entry<String, String> namespaceDefinition : 
+		for (Map.Entry<String, String> namespaceDefinition :
 			wsdlDef.getNamespaces().getNamespaces().entrySet()) {
 			final String namespacePrefix = namespaceDefinition.getKey();
 			final String namespaceURI = namespaceDefinition.getValue();
 			if (doc.lookupNamespaceURI(namespacePrefix) != null) continue;
-			
-	        doc.getDocumentElement().setAttributeNS(XMLConstants.XMLNS_ATTRIBUTE_NS_URI, 
+
+	        doc.getDocumentElement().setAttributeNS(XMLConstants.XMLNS_ATTRIBUTE_NS_URI,
 	        		XMLConstants.XMLNS_ATTRIBUTE + ":" + namespacePrefix, namespaceURI);
 		}
 	}
-	
-	
-	public Document getDocument(final Description wsdlDef) throws WSDLException {
+
+
+	@Override
+  public Document getDocument(final Description wsdlDef) throws WSDLException {
 		Document doc = null;
-		if ((wsdlDef != null) && (wsdlDef instanceof org.ow2.easywsdl.wsdl.impl.wsdl11.DescriptionImpl)) {
+		if (wsdlDef != null && wsdlDef instanceof org.ow2.easywsdl.wsdl.impl.wsdl11.DescriptionImpl) {
 			try {
 				String schemaLocation = Util.convertSchemaLocationIntoString(wsdlDef);
 				doc = this.convertWSDL11Definition2DOMElement(wsdlDef, schemaLocation);
@@ -139,29 +141,32 @@ public class WSDLWriterImpl implements org.ow2.easywsdl.wsdl.api.WSDLWriter {
 				appendMissingOriginalNamespaceDeclarations(wsdlDef, doc);
 			} catch (final WSDLException e) {
 				throw new WSDLException("Can not write wsdl description", e);
-			} 
+			}
 		}
 		return doc;
 	}
 
-	public boolean getFeature(final String name) throws IllegalArgumentException {
+	@Override
+  public boolean getFeature(final String name) throws IllegalArgumentException {
         throw new UnsupportedOperationException();
 	}
 
-	public void setFeature(final String name, final boolean value) throws IllegalArgumentException {
+	@Override
+  public void setFeature(final String name, final boolean value) throws IllegalArgumentException {
         throw new UnsupportedOperationException();
 	}
 
-	public String writeWSDL(final Description wsdlDef) throws WSDLException {
+	@Override
+  public String writeWSDL(final Description wsdlDef) throws WSDLException {
 		String res = null;
-		if ((wsdlDef != null) && (wsdlDef instanceof org.ow2.easywsdl.wsdl.impl.wsdl11.DescriptionImpl)) {
+		if (wsdlDef != null && wsdlDef instanceof org.ow2.easywsdl.wsdl.impl.wsdl11.DescriptionImpl) {
 			try {
 				String schemaLocation = Util.convertSchemaLocationIntoString(wsdlDef);
 
 				res = this.convertWSDL11Definition2String(wsdlDef, schemaLocation);
 			} catch (final WSDLException e) {
 				throw new WSDLException("Can not write wsdl description", e);
-			} 
+			}
 		}
 		return res;
 	}

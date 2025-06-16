@@ -1,6 +1,6 @@
 /**
  * Copyright (c) 2008-2012 EBM WebSourcing, 2012-2023 Linagora
- * 
+ *
  * This program/library is free software: you can redistribute it and/or modify
  * it under the terms of the New BSD License (3-clause license).
  *
@@ -13,15 +13,15 @@
  * along with this program/library; If not, see http://directory.fsf.org/wiki/License:BSD_3Clause/
  * for the New BSD License (3-clause license).
  */
- 
+
 package org.ow2.easywsdl.wsdl.impl.wsdl11;
 
 import java.net.URI;
 import java.util.Map;
 
-import javax.xml.bind.JAXBElement;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Unmarshaller;
+import jakarta.xml.bind.JAXBElement;
+import jakarta.xml.bind.JAXBException;
+import jakarta.xml.bind.Unmarshaller;
 
 import org.ow2.easywsdl.schema.api.absItf.AbsItfSchema;
 import org.ow2.easywsdl.wsdl.api.Description;
@@ -43,7 +43,7 @@ import com.ebmwebsourcing.easycommons.uri.URIHelper;
 public class ImportImpl extends AbstractImportImpl<TImport, Description> implements org.ow2.easywsdl.wsdl.api.Import {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 
@@ -54,17 +54,20 @@ public class ImportImpl extends AbstractImportImpl<TImport, Description> impleme
 		this.documentation = new org.ow2.easywsdl.wsdl.impl.wsdl11.DocumentationImpl(this.model.getDocumentation(), this);
 	}
 
-	public String getNamespaceURI() {
+	@Override
+  public String getNamespaceURI() {
 		return this.model.getNamespace();
 	}
 
-	public void setNamespaceURI(final String namespaceURI) {
+	@Override
+  public void setNamespaceURI(final String namespaceURI) {
 		this.model.setNamespace(namespaceURI);
 	}
 
 	/**
      * {@inheritDoc}
      */
+    @Override
     public URI getLocationURI() {
         if (this.model.getLocation() != null) {
             return URIHelper.filePathToUri(this.model.getLocation());
@@ -76,6 +79,7 @@ public class ImportImpl extends AbstractImportImpl<TImport, Description> impleme
     /**
      * {@inheritDoc}
      */
+    @Override
     public void setLocationURI(final URI locationURI) {
 		this.model.setLocation(locationURI.toString());
 	}
@@ -83,7 +87,7 @@ public class ImportImpl extends AbstractImportImpl<TImport, Description> impleme
 	public static TImport replaceDOMElementByTImport(final WSDLElement parent, final Element childToReplace, WSDLReaderImpl reader) throws WSDLException {
 		TImport res = null;
 		try {
-			if ((childToReplace != null) && ((childToReplace.getLocalName().equals("import")) && (childToReplace.getNamespaceURI().equals(Constants.WSDL_11_NAMESPACE)))) {
+			if (childToReplace != null && childToReplace.getLocalName().equals("import") && childToReplace.getNamespaceURI().equals(Constants.WSDL_11_NAMESPACE)) {
 				JAXBElement<TImport> jaxbElement;
 
                 Unmarshaller unmarshaller = WSDLJAXBContext.getJaxbContext().createUnmarshaller();

@@ -1,6 +1,6 @@
 /**
  * Copyright (c) 2008-2012 EBM WebSourcing, 2012-2023 Linagora
- * 
+ *
  * This program/library is free software: you can redistribute it and/or modify
  * it under the terms of the New BSD License (3-clause license).
  *
@@ -13,7 +13,7 @@
  * along with this program/library; If not, see http://directory.fsf.org/wiki/License:BSD_3Clause/
  * for the New BSD License (3-clause license).
  */
- 
+
 package org.ow2.easywsdl.wsdl.test.wsdl;
 
 import java.io.BufferedReader;
@@ -51,10 +51,9 @@ import javax.wsdl.extensions.soap12.SOAP12Body;
 import javax.wsdl.extensions.soap12.SOAP12Fault;
 import javax.wsdl.extensions.soap12.SOAP12Header;
 import javax.wsdl.extensions.soap12.SOAP12Operation;
-import javax.xml.bind.JAXBElement;
 import javax.xml.namespace.QName;
 
-import junit.framework.TestCase;
+import jakarta.xml.bind.JAXBElement;
 
 import org.junit.Assert;
 import org.ow2.easywsdl.wsdl.WSDLFactory;
@@ -77,17 +76,19 @@ import org.w3c.dom.Document;
 
 import com.ebmwebsourcing.easycommons.xml.XMLHelper;
 
+import junit.framework.TestCase;
+
 /**
  * @author Nicolas Salatge - EBM WebSourcing
  */
 public class WSDL4JComparisonTest extends TestCase {
 
 	public void testWSDL4J() throws Exception {
-	
+
 		WSDLReader readerDesc = WSDLFactory.newInstance().newWSDLReader();
 		javax.wsdl.xml.WSDLReader readerDef = javax.wsdl.factory.WSDLFactory.newInstance().newWSDLReader();
 		readerDef.setFeature("javax.wsdl.verbose", false);
-		
+
 		// WSDL 1.1
 		for (final URL wsdlUrl : WSDLList.getWsdls11()) {
 			final Description desc = readerDesc.read(wsdlUrl);
@@ -108,7 +109,7 @@ public class WSDL4JComparisonTest extends TestCase {
 		Document importDocument = XMLHelper
 				.createDocumentFromString(importString);
 		importDocument.setDocumentURI(".");
-		HashMap<URI, AbsItfDescription> imports = new HashMap<URI, AbsItfDescription>();
+		HashMap<URI, AbsItfDescription> imports = new HashMap<>();
 		imports.put(URI.create("sendMailInterface.wsdl"), WSDLFactory.newInstance().newWSDLReader().read(importDocument));
 	}
 
@@ -427,13 +428,13 @@ public class WSDL4JComparisonTest extends TestCase {
 		SOAPFault soapFault = null;
 		SOAP12Body soap12Body = null;
 		SOAP12Fault soap12Fault = null;
-		final List<SOAPHeader> soapHeader = new ArrayList<SOAPHeader>();
-		final List<SOAP12Header> soap12Header = new ArrayList<SOAP12Header>();
+		final List<SOAPHeader> soapHeader = new ArrayList<>();
+		final List<SOAP12Header> soap12Header = new ArrayList<>();
 		HTTPUrlEncoded httpUrlEncoded = null;
 		HTTPUrlReplacement httpUrlReplacement = null;
-		final List<MIMEContent> mimeContents = new ArrayList<MIMEContent>();
-		final List<MIMEMimeXml> mimeXmls = new ArrayList<MIMEMimeXml>();
-		final List<javax.wsdl.extensions.mime.MIMEMultipartRelated> mpartr = new ArrayList<MIMEMultipartRelated>();
+		final List<MIMEContent> mimeContents = new ArrayList<>();
+		final List<MIMEMimeXml> mimeXmls = new ArrayList<>();
+		final List<javax.wsdl.extensions.mime.MIMEMultipartRelated> mpartr = new ArrayList<>();
 		if (extElList2 != null) {
 			final Iterator extIterator = extElList2.iterator();
 
@@ -467,8 +468,8 @@ public class WSDL4JComparisonTest extends TestCase {
 			}
 		}
 
-		if ((soapBody != null) || (soapHeader.size() > 0)
-				|| (soapFault != null)) {
+		if (soapBody != null || soapHeader.size() > 0
+				|| soapFault != null) {
 			Assert.assertNotNull(actualparam.getSOAP11Binding4Wsdl11());
 			if (soapBody != null) {
 				Assert.assertEquals(soapBody.getNamespaceURI(), actualparam
@@ -532,8 +533,8 @@ public class WSDL4JComparisonTest extends TestCase {
 						.getFault());
 			}
 
-		} else if ((soap12Body != null) || (soap12Header.size() > 0)
-				|| (soap12Fault != null)) {
+		} else if (soap12Body != null || soap12Header.size() > 0
+				|| soap12Fault != null) {
 			Assert.assertNotNull(actualparam.getSOAP12Binding4Wsdl11());
 
 			if (soap12Body != null) {
@@ -582,7 +583,7 @@ public class WSDL4JComparisonTest extends TestCase {
 						.getFault());
 			}
 
-		} else if ((httpUrlEncoded != null) || (httpUrlReplacement != null)) {
+		} else if (httpUrlEncoded != null || httpUrlReplacement != null) {
 			Assert.assertNotNull(actualparam.getHTTPBinding4Wsdl11());
 
 			if (httpUrlEncoded != null) {
@@ -601,8 +602,8 @@ public class WSDL4JComparisonTest extends TestCase {
 						.isUrlReplacement());
 			}
 
-		} else if ((mimeContents.size() > 0) || (mimeXmls.size() > 0)
-				|| (mpartr.size() > 0)) {
+		} else if (mimeContents.size() > 0 || mimeXmls.size() > 0
+				|| mpartr.size() > 0) {
 			Assert.assertNotNull(actualparam.getMIMEBinding4Wsdl11());
 
 			Assert.assertEquals(mimeContents.size(), actualparam

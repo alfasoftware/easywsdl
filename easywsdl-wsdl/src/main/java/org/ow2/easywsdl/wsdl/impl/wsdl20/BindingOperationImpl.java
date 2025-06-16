@@ -1,6 +1,6 @@
 /**
  * Copyright (c) 2008-2012 EBM WebSourcing, 2012-2023 Linagora
- * 
+ *
  * This program/library is free software: you can redistribute it and/or modify
  * it under the terms of the New BSD License (3-clause license).
  *
@@ -13,7 +13,7 @@
  * along with this program/library; If not, see http://directory.fsf.org/wiki/License:BSD_3Clause/
  * for the New BSD License (3-clause license).
  */
- 
+
 package org.ow2.easywsdl.wsdl.impl.wsdl20;
 
 import java.net.URI;
@@ -21,8 +21,9 @@ import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Map.Entry;
 
-import javax.xml.bind.JAXBElement;
 import javax.xml.namespace.QName;
+
+import jakarta.xml.bind.JAXBElement;
 
 import org.ow2.easywsdl.schema.api.XmlException;
 import org.ow2.easywsdl.wsdl.api.BindingFault;
@@ -52,7 +53,7 @@ public class BindingOperationImpl
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private ObjectFactory factory = new ObjectFactory();
+	private final ObjectFactory factory = new ObjectFactory();
 
 	public BindingOperationImpl(final BindingOperationType bindingOperation,
 			final BindingImpl bindingImpl) {
@@ -102,7 +103,7 @@ public class BindingOperationImpl
 						new QName("http://www.w3.org/ns/wsdl",
 								"infault"));
 	}
-	
+
 	private boolean isOutFault(final JAXBElement item,Object value) {
 		return value instanceof BindingOperationFaultType
 		&& item.getName()
@@ -125,16 +126,18 @@ public class BindingOperationImpl
 						new QName("http://www.w3.org/ns/wsdl", "input"));
 	}
 
-	public void addFault(final BindingFault bindingFault) {
+	@Override
+  public void addFault(final BindingFault bindingFault) {
 		this.faults.add(bindingFault);
 
 		JAXBElement<BindingOperationFaultType> bf = factory
-				.createBindingOperationTypeOutfault((((BindingOperationFaultType) ((AbstractWSDLElementImpl) bindingFault)
-						.getModel())));
+				.createBindingOperationTypeOutfault((BindingOperationFaultType) ((AbstractWSDLElementImpl) bindingFault)
+						.getModel());
 		this.model.getInputOrOutputOrInfault().add(bf);
 	}
 
-	public BindingFault removeFault(final String name) {
+	@Override
+  public BindingFault removeFault(final String name) {
         throw new UnsupportedOperationException();
 	}
 
@@ -142,8 +145,8 @@ public class BindingOperationImpl
 	public void setInput(BindingInput input) {
 		super.setInput(input);
 		JAXBElement<BindingOperationMessageType> bi = factory
-				.createBindingOperationTypeInput((((BindingOperationMessageType) ((AbstractWSDLElementImpl) input)
-						.getModel())));
+				.createBindingOperationTypeInput((BindingOperationMessageType) ((AbstractWSDLElementImpl) input)
+						.getModel());
 		this.model.getInputOrOutputOrInfault().add(bi);
 	}
 
@@ -151,28 +154,31 @@ public class BindingOperationImpl
 	public void setOutput(BindingOutput output) {
 		super.setOutput(output);
 		JAXBElement<BindingOperationMessageType> bo = factory
-				.createBindingOperationTypeOutput((((BindingOperationMessageType) ((AbstractWSDLElementImpl) input)
-						.getModel())));
+				.createBindingOperationTypeOutput((BindingOperationMessageType) ((AbstractWSDLElementImpl) input)
+						.getModel());
 		this.model.getInputOrOutputOrInfault().add(bo);
 	}
 
-	public void setQName(final QName name) {
+	@Override
+  public void setQName(final QName name) {
 		this.model.setRef(name);
 	}
 
-	public QName getQName() {
+	@Override
+  public QName getQName() {
 		return this.model.getRef();
 	}
 
-	public SOAPMEPConstants getMEP() {
+	@Override
+  public SOAPMEPConstants getMEP() {
 		SOAPMEPConstants mep = null;
 		for (final Entry<QName, String> attribute : this.model
 				.getOtherAttributes().entrySet()) {
-			if ((attribute.getKey().getLocalPart()
-					.equals(Constants.MEP_ATTRIBUTE))
-					&& (attribute.getKey().getNamespaceURI()
+			if (attribute.getKey().getLocalPart()
+					.equals(Constants.MEP_ATTRIBUTE)
+					&& attribute.getKey().getNamespaceURI()
 							.equals(org.ow2.easywsdl.wsdl.api.Binding.BindingConstants.SOAP_BINDING4WSDL20
-									.value().toString()))) {
+									.value().toString())) {
 				try {
 					mep = SOAPMEPConstants
 							.valueOf(new URI(attribute.getValue()));
@@ -185,7 +191,8 @@ public class BindingOperationImpl
 		return mep;
 	}
 
-	public void setMEP(final SOAPMEPConstants mep) {
+	@Override
+  public void setMEP(final SOAPMEPConstants mep) {
 		this.model
 				.getOtherAttributes()
 				.put(
@@ -196,11 +203,13 @@ public class BindingOperationImpl
 						mep.value().toString());
 	}
 
-	public StyleConstant getStyle() {
+	@Override
+  public StyleConstant getStyle() {
 		return StyleConstant.DOCUMENT;
 	}
 
-	public String getHttpLocation() {
+	@Override
+  public String getHttpLocation() {
 		return this.model
 				.getOtherAttributes()
 				.get(
@@ -209,7 +218,8 @@ public class BindingOperationImpl
 										.value().toString(), "location"));
 	}
 
-	public String getSoapAction() {
+	@Override
+  public String getSoapAction() {
 		return this.model
 				.getOtherAttributes()
 				.get(
@@ -218,7 +228,8 @@ public class BindingOperationImpl
 										.value().toString(), "action"));
 	}
 
-	public void setSoapAction(String action) {
+	@Override
+  public void setSoapAction(String action) {
 		this.model
 				.getOtherAttributes()
 				.put(
@@ -227,7 +238,8 @@ public class BindingOperationImpl
 										.value().toString(), "action"), action);
 	}
 
-	public String getHttpContentEncodingDefault() {
+	@Override
+  public String getHttpContentEncodingDefault() {
 		return this.model
 				.getOtherAttributes()
 				.get(
@@ -237,7 +249,8 @@ public class BindingOperationImpl
 								"contentEncodingDefault"));
 	}
 
-	public String getHttpFaultSerialization() {
+	@Override
+  public String getHttpFaultSerialization() {
 		return this.model
 				.getOtherAttributes()
 				.get(
@@ -247,7 +260,8 @@ public class BindingOperationImpl
 								"faultSerialization"));
 	}
 
-	public String getHttpInputSerialization() {
+	@Override
+  public String getHttpInputSerialization() {
 		String res = null;
 		res = this.model
 				.getOtherAttributes()
@@ -257,18 +271,19 @@ public class BindingOperationImpl
 										.value().toString(),
 								"inputSerialization"));
 		if (res == null) {
-			if (("GET".equals(this.getHttpMethod()))
-					|| ("DELETE".equals(this.getHttpMethod()))) {
+			if ("GET".equals(this.getHttpMethod())
+					|| "DELETE".equals(this.getHttpMethod())) {
 				res = "application/x-www-form-urlencoded";
-			} else if (("POST".equals(this.getHttpMethod()))
-					|| ("PUT".equals(this.getHttpMethod()))) {
+			} else if ("POST".equals(this.getHttpMethod())
+					|| "PUT".equals(this.getHttpMethod())) {
 				res = "	application/xml";
 			}
 		}
 		return res;
 	}
 
-	public String getHttpMethod() {
+	@Override
+  public String getHttpMethod() {
 		return this.model
 				.getOtherAttributes()
 				.get(
@@ -277,7 +292,8 @@ public class BindingOperationImpl
 										.value().toString(), "method"));
 	}
 
-	public String getHttpOutputSerialization() {
+	@Override
+  public String getHttpOutputSerialization() {
 		String res = null;
 		res = this.model
 				.getOtherAttributes()
@@ -292,7 +308,8 @@ public class BindingOperationImpl
 		return res;
 	}
 
-	public String getHttpQueryParameterSeparator() {
+	@Override
+  public String getHttpQueryParameterSeparator() {
 		return this.model
 				.getOtherAttributes()
 				.get(
@@ -302,7 +319,8 @@ public class BindingOperationImpl
 								"queryParameterSeparator"));
 	}
 
-	public boolean isHttpIgnoreUncited() {
+	@Override
+  public boolean isHttpIgnoreUncited() {
 		return Boolean
 				.valueOf(this.model
 						.getOtherAttributes()
@@ -327,15 +345,18 @@ public class BindingOperationImpl
 		return res;
 	}
 
-	public BindingFault createFault() {
+	@Override
+  public BindingFault createFault() {
 		return new BindingFaultImpl(new BindingOperationFaultType(), this);
 	}
 
-	public BindingInput createInput() {
+	@Override
+  public BindingInput createInput() {
 		return new BindingInputImpl(new BindingOperationMessageType(), this);
 	}
 
-	public BindingOutput createOutput() {
+	@Override
+  public BindingOutput createOutput() {
 		return new BindingOutputImpl(new BindingOperationMessageType(), this);
 	}
 }

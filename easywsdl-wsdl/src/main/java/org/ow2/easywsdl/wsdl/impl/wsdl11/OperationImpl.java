@@ -1,6 +1,6 @@
 /**
  * Copyright (c) 2008-2012 EBM WebSourcing, 2012-2023 Linagora
- * 
+ *
  * This program/library is free software: you can redistribute it and/or modify
  * it under the terms of the New BSD License (3-clause license).
  *
@@ -13,14 +13,15 @@
  * along with this program/library; If not, see http://directory.fsf.org/wiki/License:BSD_3Clause/
  * for the New BSD License (3-clause license).
  */
- 
+
 package org.ow2.easywsdl.wsdl.impl.wsdl11;
 
 import java.util.List;
 import java.util.logging.Logger;
 
-import javax.xml.bind.JAXBElement;
 import javax.xml.namespace.QName;
+
+import jakarta.xml.bind.JAXBElement;
 
 import org.ow2.easywsdl.wsdl.api.Fault;
 import org.ow2.easywsdl.wsdl.api.Input;
@@ -43,13 +44,13 @@ public class OperationImpl extends
 		Operation {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 
 	private static final Logger LOG = Logger.getLogger(OperationImpl.class.getName());
 
-	private ObjectFactory objectFactory = new ObjectFactory();
+	private final ObjectFactory objectFactory = new ObjectFactory();
 
 	public OperationImpl(final TOperation op, final InterfaceTypeImpl itf) {
 		super(op, itf);
@@ -103,7 +104,8 @@ public class OperationImpl extends
 								"input"));
 	}
 
-	public void addFault(final Fault fault) {
+	@Override
+  public void addFault(final Fault fault) {
 		JAXBElement<TFault> faultElem = objectFactory
 				.createTOperationFault((TFault) ((AbstractWSDLElementImpl) fault)
 						.getModel());
@@ -124,7 +126,7 @@ public class OperationImpl extends
 			for (final JAXBElement item : this.model.getRest()) {
 				Object value = item.getValue();
 				if (isInput(item, value)) {
-					item.setValue((TParam) ((AbstractWSDLElementImpl) input)
+					item.setValue(((AbstractWSDLElementImpl) input)
 							.getModel());
 					break;
 				}
@@ -159,7 +161,7 @@ public class OperationImpl extends
 					Object value = item.getValue();
 					if (isOutput(item, value)) {
 						item
-								.setValue((TParam) ((AbstractWSDLElementImpl) output)
+								.setValue(((AbstractWSDLElementImpl) output)
 										.getModel());
 						break;
 					}
@@ -169,49 +171,56 @@ public class OperationImpl extends
 		super.setOutput(output);
 	}
 
-	@SuppressWarnings("unchecked")
+	@Override
+  @SuppressWarnings("unchecked")
 	public QName getQName() {
 		return new QName(((AbstractInterfaceTypeImpl) this.getInterface())
 				.getDescription().getTargetNamespace(), this.model.getName());
 	}
 
-	public List<String> getParameterOrdering() {
+	@Override
+  public List<String> getParameterOrdering() {
 		List<String> res = this.model.getParameterOrder();
-		if ((res != null) && (res.isEmpty())) {
+		if (res != null && res.isEmpty()) {
 			res = null;
 		}
 		return res;
 	}
 
-	public Fault removeFault(final String name) {
+	@Override
+  public Fault removeFault(final String name) {
         throw new UnsupportedOperationException();
 	}
 
-	public void setQName(final QName name) {
+	@Override
+  public void setQName(final QName name) {
 		this.model.setName(name.getLocalPart());
 	}
 
-	public void setParameterOrdering(final List<String> parameterOrder) {
+	@Override
+  public void setParameterOrdering(final List<String> parameterOrder) {
         throw new UnsupportedOperationException();
 	}
 
-	public MEPPatternConstants getPattern() {
+	@Override
+  public MEPPatternConstants getPattern() {
 		MEPPatternConstants pattern = null;
 		for (final JAXBElement item : this.model.getRest()) {
 			Object value = item.getValue();
 			if (isOutput(item, value)) {
 				pattern = MEPPatternConstants.IN_OUT;
-			} else if (isInput(item, value) && (pattern == null)) {
+			} else if (isInput(item, value) && pattern == null) {
 				pattern = MEPPatternConstants.IN_ONLY;
 			}
 		}
 		return pattern;
 	}
 
-	public void setPattern(final MEPPatternConstants pattern)
+	@Override
+  public void setPattern(final MEPPatternConstants pattern)
 			throws WSDLException {
-		if ((pattern.equals(MEPPatternConstants.IN_ONLY))
-				|| (pattern.equals(MEPPatternConstants.ROBUST_IN_ONLY))) {
+		if (pattern.equals(MEPPatternConstants.IN_ONLY)
+				|| pattern.equals(MEPPatternConstants.ROBUST_IN_ONLY)) {
 			this.setOutput(null);
 		} else {
 			LOG
@@ -219,11 +228,12 @@ public class OperationImpl extends
 		}
 	}
 
-	public Fault getFaultByElementName(final QName name) {
+	@Override
+  public Fault getFaultByElementName(final QName name) {
 		Fault res = null;
 		for (final Fault f : this.faults) {
-			if ((f.getElement() != null)
-					&& (f.getElement().getQName().equals(name))) {
+			if (f.getElement() != null
+					&& f.getElement().getQName().equals(name)) {
 				res = f;
 				break;
 			}
@@ -231,19 +241,23 @@ public class OperationImpl extends
 		return res;
 	}
 
-	public Fault removeFaultByElementName(final QName name) {
+	@Override
+  public Fault removeFaultByElementName(final QName name) {
         throw new UnsupportedOperationException();
 	}
 
-	public Fault createFault() {
+	@Override
+  public Fault createFault() {
 		return new FaultImpl(new TFault(), this);
 	}
 
-	public Input createInput() {
+	@Override
+  public Input createInput() {
 		return new InputImpl(new TParam(), this);
 	}
 
-	public Output createOutput() {
+	@Override
+  public Output createOutput() {
 		return new OutputImpl(new TParam(), this);
 	}
 

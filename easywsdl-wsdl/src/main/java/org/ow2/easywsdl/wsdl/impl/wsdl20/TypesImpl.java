@@ -1,6 +1,6 @@
 /**
  * Copyright (c) 2008-2012 EBM WebSourcing, 2012-2023 Linagora
- * 
+ *
  * This program/library is free software: you can redistribute it and/or modify
  * it under the terms of the New BSD License (3-clause license).
  *
@@ -13,7 +13,7 @@
  * along with this program/library; If not, see http://directory.fsf.org/wiki/License:BSD_3Clause/
  * for the New BSD License (3-clause license).
  */
- 
+
 package org.ow2.easywsdl.wsdl.impl.wsdl20;
 
 import java.net.URI;
@@ -22,9 +22,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import javax.xml.bind.JAXBElement;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Unmarshaller;
+import jakarta.xml.bind.JAXBElement;
+import jakarta.xml.bind.JAXBException;
+import jakarta.xml.bind.Unmarshaller;
 
 import org.ow2.easywsdl.schema.SchemaFactory;
 import org.ow2.easywsdl.schema.api.Import;
@@ -66,7 +66,7 @@ public class TypesImpl extends AbstractTypesImpl<TypesType, Schema, Import> impl
 		// get the documentation
 		this.documentation = new org.ow2.easywsdl.wsdl.impl.wsdl20.DocumentationImpl(this.model.getDocumentation(), this);
 
-		final List<org.ow2.easywsdl.schema.org.w3._2001.xmlschema.Schema> scs = new ArrayList<org.ow2.easywsdl.schema.org.w3._2001.xmlschema.Schema>();
+		final List<org.ow2.easywsdl.schema.org.w3._2001.xmlschema.Schema> scs = new ArrayList<>();
 		for (final Object item : this.model.getAny()) {
 
 			if (item instanceof org.ow2.easywsdl.schema.org.w3._2001.xmlschema.Schema) {
@@ -80,7 +80,7 @@ public class TypesImpl extends AbstractTypesImpl<TypesType, Schema, Import> impl
 				} catch (SchemaException e) {
 					throw new WSDLException(e);
 				} catch (final URISyntaxException e) {
-				    // TODO: Perhaps can we log a warning about this exception without throwing it ? 
+				    // TODO: Perhaps can we log a warning about this exception without throwing it ?
                     throw new WSDLException(e);
                 }
 				this.importedSchemas.add(impt);
@@ -97,10 +97,10 @@ public class TypesImpl extends AbstractTypesImpl<TypesType, Schema, Import> impl
 				try {
 					Schema schemaImpt = new org.ow2.easywsdl.schema.impl.SchemaImpl(this.desc.getDocumentBaseURI(), schema, this.desc.getNamespaces(), ((AbstractDescriptionImpl) this.desc).getSchemaLocator(), features, imports, (SchemaReaderImpl) reader.getSchemaReader());
 					((SchemaImpl) schemaImpt).initialize();
-					
+
                     this.schemas.add(schemaImpt);
                 } catch (final URISyntaxException e) {
-                    // TODO: Perhaps can we log a warning about this exception without throwing it ? 
+                    // TODO: Perhaps can we log a warning about this exception without throwing it ?
                     throw new WSDLException(e);
                 }
 
@@ -110,7 +110,7 @@ public class TypesImpl extends AbstractTypesImpl<TypesType, Schema, Import> impl
 		}
 
 		this.setAllNamespacesInAllSchemas();
-		
+
 		this.setSchemaInAllImport();
 	}
 
@@ -127,7 +127,8 @@ public class TypesImpl extends AbstractTypesImpl<TypesType, Schema, Import> impl
 		return res;
 	}
 
-	public Schema createSchema() {
+	@Override
+  public Schema createSchema() {
 		Schema schema = null;
 		try {
 			schema = SchemaFactory.newInstance().newSchema();
@@ -145,14 +146,15 @@ public class TypesImpl extends AbstractTypesImpl<TypesType, Schema, Import> impl
 		super.addSchema(schema);
 	}
 
-	public Schema removeSchema() {
+	@Override
+  public Schema removeSchema() {
         throw new UnsupportedOperationException();
 	}
 
 	public static TypesType replaceDOMElementByTypesType(final WSDLElement parent, final Element childToReplace, WSDLReaderImpl reader) throws WSDLException {
 		TypesType res = null;
 		try {
-			if ((childToReplace != null) && ((childToReplace.getLocalName().equals("types")) && (childToReplace.getNamespaceURI().equals(Constants.WSDL_20_NAMESPACE)))) {
+			if (childToReplace != null && childToReplace.getLocalName().equals("types") && childToReplace.getNamespaceURI().equals(Constants.WSDL_20_NAMESPACE)) {
 				JAXBElement<TypesType> jaxbElement;
 
                 Unmarshaller unmarshaller = WSDLJAXBContext.getJaxbContext().createUnmarshaller();

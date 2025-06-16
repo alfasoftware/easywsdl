@@ -1,6 +1,6 @@
 /**
  * Copyright (c) 2008-2012 EBM WebSourcing, 2012-2023 Linagora
- * 
+ *
  * This program/library is free software: you can redistribute it and/or modify
  * it under the terms of the New BSD License (3-clause license).
  *
@@ -13,16 +13,16 @@
  * along with this program/library; If not, see http://directory.fsf.org/wiki/License:BSD_3Clause/
  * for the New BSD License (3-clause license).
  */
- 
+
 package org.ow2.easywsdl.wsdl.impl.wsdl20;
 
 import java.net.URI;
 import java.util.List;
 import java.util.Map;
 
-import javax.xml.bind.JAXBElement;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Unmarshaller;
+import jakarta.xml.bind.JAXBElement;
+import jakarta.xml.bind.JAXBException;
+import jakarta.xml.bind.Unmarshaller;
 
 import org.ow2.easywsdl.schema.api.XmlException;
 import org.ow2.easywsdl.schema.api.absItf.AbsItfSchema;
@@ -59,6 +59,7 @@ public class IncludeImpl extends AbstractIncludeImpl<IncludeType, Description> i
 	/**
      * {@inheritDoc}
      */
+    @Override
     public URI getLocationURI() {
         if (this.model.getLocation() != null) {
             return URIHelper.filePathToUri(this.model.getLocation());
@@ -70,6 +71,7 @@ public class IncludeImpl extends AbstractIncludeImpl<IncludeType, Description> i
     /**
      * {@inheritDoc}
      */
+    @Override
     public void setLocationURI(final URI locationURI) {
 		this.model.setLocation(locationURI.toString());
 	}
@@ -90,7 +92,7 @@ public class IncludeImpl extends AbstractIncludeImpl<IncludeType, Description> i
 	public static IncludeType replaceDOMElementByIncludeType(final WSDLElement parent, final Element childToReplace, WSDLReaderImpl reader) throws WSDLException {
 		IncludeType res = null;
 		try {
-			if ((childToReplace != null) && ((childToReplace.getLocalName().equals("include")) && (childToReplace.getNamespaceURI().equals(Constants.WSDL_20_NAMESPACE)))) {
+			if (childToReplace != null && childToReplace.getLocalName().equals("include") && childToReplace.getNamespaceURI().equals(Constants.WSDL_20_NAMESPACE)) {
 				JAXBElement<IncludeType> jaxbElement;
 
                 Unmarshaller unmarshaller = WSDLJAXBContext.getJaxbContext().createUnmarshaller();
