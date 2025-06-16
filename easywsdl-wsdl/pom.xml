@@ -19,7 +19,7 @@
    <parent>
       <artifactId>easywsdl-parent</artifactId>
       <groupId>org.ow2.easywsdl</groupId>
-      <relativePath>../../parent/pom.xml</relativePath>
+      <relativePath>../pom.xml</relativePath>
       <version>2.8.0</version>
    </parent>
 
@@ -28,6 +28,13 @@
    <groupId>org.ow2.easywsdl</groupId>
    <version>2.8.0</version>
    <packaging>jar</packaging>
+   <properties>
+      <!-- Overridden - not using parent -->
+      <checkstyle-copyright-regexp>${project.basedir}/../no-check</checkstyle-copyright-regexp>
+
+      <!-- Overridden - not using parent - new licence file -->
+      <checkstyle-license-regexp>${project.basedir}/../no-check</checkstyle-license-regexp>
+   </properties>
 
    <dependencies>
       <dependency>
@@ -136,8 +143,10 @@
       </plugins>
    </build>
 
-   <scm>
-      <connection>scm:svn:https://svn.petalslink.org/svnroot/tags/easywsdl-wsdl-2.8.0</connection>
-      <developerConnection>scm:svn:https://svn.petalslink.org/svnroot/tags/easywsdl-wsdl-2.8.0</developerConnection>
-   </scm>
+  <scm>
+    <tag>HEAD</tag>
+	<url>scm:git:https://github.com/alfasoftware/easywsdl/tree/${project.scm.tag}</url>
+    <connection>scm:git:https://github.com/alfasoftware/easywsdl.git</connection>
+    <developerConnection>scm:git:https://github.com/alfasoftware/easywsdl.git</developerConnection>
+  </scm>
 </project>
