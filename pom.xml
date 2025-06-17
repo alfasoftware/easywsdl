@@ -24,7 +24,7 @@
   <artifactId>easywsdl-parent</artifactId>
   <groupId>org.ow2.easywsdl</groupId>
   <packaging>pom</packaging>
-  <version>2.8.0</version>
+  <version>2.8.0-alfa1001</version>
 
   <inceptionYear>2008</inceptionYear>
   <description>EasyWSDL Library</description>
@@ -172,7 +172,7 @@
          <dependency>
             <artifactId>easycommons-util</artifactId>
             <groupId>org.ow2.easycommons</groupId>
-            <version>2.6.1</version>
+            <version>2.6.1-alfa1001</version>
          </dependency>
 		 
          <!-- These dependencies all pertains to the Java version used in Petals and the Easy* -->
